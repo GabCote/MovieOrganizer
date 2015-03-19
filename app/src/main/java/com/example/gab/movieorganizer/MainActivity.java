@@ -1,5 +1,11 @@
 package com.example.gab.movieorganizer;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,10 +14,62 @@ import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity {
 
+    ViewPager pager;
+    SimplePagerAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.home);
+
+        pager=(ViewPager)findViewById(R.id.pager);
+        adapter= new SimplePagerAdapter(getSupportFragmentManager()); //support provient du import android.support sinon aucun support
+        pager.setAdapter(adapter);
+
+        //POUR LE ACTION BAR
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+            //événements sur les tabs
+            @Override
+            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                pager.setCurrentItem(tab.getPosition());    //prend la page de mon tab
+            }
+
+            @Override
+            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+
+            @Override
+            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+        };
+
+        //creer les tables
+        //getcount retoune le nb de pages et donc creer le nombre de tabs avec for
+        for(int i=0; i< adapter.getCount();i++){
+            //actionBar.addTab(actionBar.newTab().setText(adapter.getPageTitle(i)).setTabListener(tabListener));
+            ActionBar.Tab tab = actionBar.newTab();
+            tab.setText(adapter.getPageTitle(i));
+            tab.setTabListener(tabListener);
+            actionBar.addTab(tab);
+        }
+
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {}
+
+            @Override
+            public void onPageSelected(int i) {
+                //mettre a jour le tab selectionne (highlighter)
+                getSupportActionBar().setSelectedNavigationItem(i);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) { }
+        });
+
+
+
+
     }
 
 
@@ -36,4 +94,38 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private class SimplePagerAdapter extends FragmentPagerAdapter{
+        //pour aller chercher la page voulue
+
+        public SimplePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            //creer un fragment
+            SimplePagerFragment f = new SimplePagerFragment();
+            Bundle args = new Bundle();
+            args.putInt("id", i);
+            f.setArguments(args); //mis des arguments
+            return f;
+        }
+
+        @Override
+        public int getCount() { //retourne le nb de pages
+            return 4;
+        }
+
+        public CharSequence getPageTitle(int i){
+            switch (i){
+                case 0: return getString(R.string.home);
+                case 1: return getString(R.string.seen);
+                case 2: return getString(R.string.wishList);
+                case 3: return getString(R.string.search);
+                default: return "Error";
+            }
+        }
+    };
+
 }
