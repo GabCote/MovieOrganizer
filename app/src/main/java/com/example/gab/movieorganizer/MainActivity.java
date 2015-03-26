@@ -22,7 +22,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home);
+        setContentView(R.layout.home_layout);
 
         pager=(ViewPager)findViewById(R.id.pager);
         adapter= new SimplePagerAdapter(getSupportFragmentManager()); //support provient du import android.support sinon aucun support
