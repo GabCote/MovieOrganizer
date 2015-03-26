@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,35 +23,66 @@ import java.io.IOException;
 public class RottenTomatoesWebApi {
 
     // Sera null s'il n'y a pas d'erreur
-    String erreur;
-    int total;
+    String erreur = null;
 
-    String apiKey = "rvfeudqcxbd69rtdt7sxzyvk";
-    String country = "ca";
+    int total=12345;
     int page_limit = 16;
-    RottenTomatoesWebApi() {
-        erreur = null;
+    String apiKey = "dmazmwz6h6hymzv5sbyws8cw";
+    String country = "ca";
+    String url;
 
-        //http://developer.rottentomatoes.com/docs/read/json/v10/Upcoming_Movies
-        //pour en savoir plus sur les Upcoming Movies avec l'API
+    RottenTomatoesWebApi(String param) {
+        switch (param){
+            case "Accueil": url="http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey="+apiKey+"&page_limit="+Integer.toString(page_limit)+"&country="+country;
+                 //ce sera ça: http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey=dmazmwz6h6hymzv5sbyws8cw&page_limit=16&country=ca
+                 //c'est l'url pour prendre les Upcoming Movies
 
-        String url = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey="+apiKey+"&page_limit="+Integer.toString(page_limit)+"&country="+country;
-        //ce sera ça: http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey=rvfeudqcxbd69rtdt7sxzyvk&page_limit=16&country=ca
-        //c'est uniquement l'url pour prendre les Upcoming Movies
+                //http://developer.rottentomatoes.com/docs/read/json/v10/Upcoming_Movies
+                //pour en savoir plus sur les Upcoming Movies avec l'API
+                break;
+            case "Recherche":url=null;
+                break;
+            case "Autre chose blablabla": url="http........";
+                break;
 
-        Log.d("URL", url);
+        }
 
+        Log.d("URL", "Affichage de l'url:"+url);
         try {
             // Charge le fichier JSON à l'URL donné depuis le web
             HttpEntity page = getHttp(url);
-
             // Interprète la page retournée comme un fichier JSON encodé en UTF-8
             JSONObject js = new JSONObject(EntityUtils.toString(page, HTTP.UTF_8));
 
-            // Le format de ce JSON stocke les informations actuelles dans un sous-objet "current_observation"
-            JSONObject obs = js.getJSONObject("current_observation");
+            switch(param){
+                case "Accueil":
 
-            total = Integer.parseInt(obs.getString("total"));
+                    // Le format de ce JSON stocke les informations actuelles dans un sous-objet "movies"
+                    JSONArray moviesjson = js.getJSONArray("movies");
+                    total = moviesjson.length();
+                    Movie tableauFilm[] = new Movie[total];
+
+                    for(int i=0; i<total; i++){
+                        JSONObject movie = moviesjson.getJSONObject(i);
+                        int id = movie.getInt("id");
+                        String titre = movie.getString("title");
+                        int annee = movie.getInt("year");
+                        String synopsis = movie.getString("synopsis");
+                        Movie movie1 = new Movie(id,titre,annee, synopsis);
+                        tableauFilm[i] = movie1;
+
+                        Log.d("FILMS1","Affichage des films :"+movie1.toString());
+                    }
+                    break;
+                case "Recherche":
+                    break;
+
+
+            }
+
+
+            Log.d("TOTAL1","Affichage du total1:"+Integer.toString(total));
+
             //continuer a prendre l'information du fichier jason
             //entre autre, mettre tous les films dans un tableau de film
 
@@ -63,7 +95,12 @@ public class RottenTomatoesWebApi {
         } catch (JSONException e) {
             erreur = "Erreur JSON :"+e.getMessage();
         }
+        Log.d("TOTAL2","Affichage du total2:"+Integer.toString(total));
+        Log.d("Err", "Affichage de l'erreur:"+erreur);
     }
+
+
+
     /*
 	 * Méthode utilitaire qui permet de rapidement
 	 * charger et obtenir une page web depuis

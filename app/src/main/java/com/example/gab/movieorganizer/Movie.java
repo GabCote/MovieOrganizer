@@ -5,13 +5,23 @@ package com.example.gab.movieorganizer;
  */
 public class Movie {
     int id, annee;
-    String title, synopsis;
+    String titre, synopsis;
 
-    public Movie(int id, int annee, String title, String synopsis) {
+    public Movie(int id, String titre,int annee, String synopsis) {
         this.id = id;
+        this.titre = titre;
         this.annee = annee;
-        this.title = title;
         this.synopsis = synopsis;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", annee=" + annee +
+                ", titre='" + titre + '\'' +
+                ", synopsis='" + synopsis + '\'' +
+                '}';
     }
 
     public int getId() {
@@ -30,12 +40,12 @@ public class Movie {
         this.annee = annee;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTitre() {
+        return titre;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitre(String titre) {
+        this.titre = titre;
     }
 
     public String getSynopsis() {
