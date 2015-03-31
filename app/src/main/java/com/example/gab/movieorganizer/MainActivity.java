@@ -1,5 +1,8 @@
 package com.example.gab.movieorganizer;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,8 +12,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.CursorAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -24,6 +38,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_layout);
 
+        //View pager
         pager=(ViewPager)findViewById(R.id.pager);
         adapter= new SimplePagerAdapter(getSupportFragmentManager()); //support provient du import android.support sinon aucun support
         pager.setAdapter(adapter);
@@ -99,24 +114,24 @@ public class MainActivity extends ActionBarActivity {
     }
     private class DownloadNouveautes extends AsyncTask<String, String, RottenTomatoesWebApi> {
 
-         // Cette méthode s'exécute dans le thread de l'interface. C'est le bon endroit pour notifier l'usager
-         // qu'une tâche plus longue commence (par exemple, afficher une barre de progression).
+        // Cette méthode s'exécute dans le thread de l'interface. C'est le bon endroit pour notifier l'usager
+        // qu'une tâche plus longue commence (par exemple, afficher une barre de progression).
         @Override
         protected void onPreExecute() {
             // Affiche la barre de progression
             //pb.setVisibility(View.VISIBLE);
         }
 
-         // Cette méthode est exécutée dans son propre thread. C'est là où le travail le plus lourd se passe.
-         // On pourra appeler publishProgress durant l'exécution de cette méthode pour mettre à jour le thread d'interface.
+        // Cette méthode est exécutée dans son propre thread. C'est là où le travail le plus lourd se passe.
+        // On pourra appeler publishProgress durant l'exécution de cette méthode pour mettre à jour le thread d'interface.
         @Override
         protected RottenTomatoesWebApi doInBackground(String... params) {
             RottenTomatoesWebApi web = new RottenTomatoesWebApi("Accueil");
             return web;
         }
 
-         // Cette méthode est appelée dans le thread d'interface lorsque publishProgress est appelée dans doInBackground.
-         // Les paramètres sont passés directement de l'une à l'autre.
+        // Cette méthode est appelée dans le thread d'interface lorsque publishProgress est appelée dans doInBackground.
+        // Les paramètres sont passés directement de l'une à l'autre.
         @Override
         protected void onProgressUpdate(String... s) {
             // éxécute dans le thread interface, si le thread non-interface
