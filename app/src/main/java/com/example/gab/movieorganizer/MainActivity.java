@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_layout);
+        setContentView(R.layout.main_layout);
 
         //View pager
         pager=(ViewPager)findViewById(R.id.pager);
