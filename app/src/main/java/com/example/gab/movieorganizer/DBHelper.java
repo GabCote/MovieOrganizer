@@ -28,14 +28,20 @@ public class DBHelper extends SQLiteOpenHelper {
     static final String COL_IMAGE = "image";
 
     //Create table
-    //String CREATE_SEEN = "CREATE TABLE "+ TABLE_SEEN +" (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COL_TITRE + " TEXT"+ ")";
-    //String CREATE_WISH = "CREATE TABLE "+ TABLE_WISH +" (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COL_TITRE + " TEXT"+ ")";
     String CREATE_SEEN = "create table "+TABLE_SEEN
             +" ("+COL_ID+" integer primary key autoincrement, "
             + COL_TITRE+" text, "
             + COL_ANNEE+" integer, "
             + COL_SYNOPSIS+" text,"
             + COL_IMAGE+" text)";
+
+    String CREATE_WISH = "create table "+TABLE_WISH
+            +" ("+COL_ID+" integer primary key autoincrement, "
+            + COL_TITRE+" text, "
+            + COL_ANNEE+" integer, "
+            + COL_SYNOPSIS+" text,"
+            + COL_IMAGE+" text)";
+
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_Version);
         // Android will look for the database defined by DB_NAME
@@ -47,8 +53,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         try {
             db.execSQL(CREATE_SEEN);
+            db.execSQL(CREATE_WISH);
 
-            //db.execSQL(CREATE_WISH);
+
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -63,7 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
             db.execSQL("drop table if exists " + TABLE_SEEN);
-            //db.execSQL("drop table if exists " + TABLE_WISH);
+            db.execSQL("drop table if exists " + TABLE_WISH);
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -79,26 +86,16 @@ public class DBHelper extends SQLiteOpenHelper {
             db.close();
     }
 
-/*
-    public Cursor listeWishlist(){
-        //comme une ArrayListe de type Database
-        String sql = "select * from "+ TABLE_WISH
-                +" order by "+ W_TITRE+" asc";
-        Cursor c=db.rawQuery(sql,null);
 
-        return c;
-    }
-*/
-    /* --------------- MOVIE SEEN MÉTHODES ---------------------------- */
 
-    /*Methode pour insérer un film dans la liste SEEN*/
+    /*Methode pour insérer un film dans la liste SEEN ou WISH*/
 
-    public void insertMovieSeen(Movie movie) {
+    public void insertMovie(Movie movie, String table_name) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         try {
         db.execSQL("INSERT INTO " +
-                TABLE_SEEN +"("+COL_TITRE+","+COL_ANNEE+","+COL_SYNOPSIS+","+COL_IMAGE+")"+
+                table_name +"("+COL_TITRE+","+COL_ANNEE+","+COL_SYNOPSIS+","+COL_IMAGE+")"+
                 " Values ('"+ movie.getTitre() + "','" +movie.getAnnee() + "','" +movie.getSynopsis()+ "','" + movie.getImgUrl()+ "');");
 
         }catch (Exception e){
@@ -107,6 +104,15 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
     }
+
+    /*Methode pour supprimer un film dans liste SEEN ou WISH*/
+    public void deleteMovieSeen(long movieID,String table_name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(table_name, COL_ID + " = ?",
+                new String[] { String.valueOf(movieID) });
+    }
+
+    /* --------------- MOVIE SEEN MÉTHODES ---------------------------- */
 
     /*Methode pour chercher un film dans les SEEN */
     public Movie getMovieSeen(long movieID){
@@ -119,8 +125,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if (c != null)
             c.moveToFirst();
 
-        Movie m = new Movie(c.getInt(c.getColumnIndex(COL_ID)),c.getString(c.getColumnIndex(COL_TITRE)),0,"","");
-                //,c.getInt(c.getColumnIndex(COL_ANNEE)),c.getString(c.getColumnIndex(COL_SYNOPSIS)),c.getString(c.getColumnIndex(COL_IMAGE)));
+        Movie m = new Movie(c.getInt(c.getColumnIndex(COL_ID)),c.getString(c.getColumnIndex(COL_TITRE)),c.getInt(c.getColumnIndex(COL_ANNEE)),c.getString(c.getColumnIndex(COL_SYNOPSIS)),c.getString(c.getColumnIndex(COL_IMAGE)));
 
         return m;
     }
@@ -143,20 +148,28 @@ public class DBHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(COL_ID, movie.getId());
-        values.put(COL_TITRE, movie.getTitre());/*
+        values.put(COL_TITRE, movie.getTitre());
         values.put(COL_ANNEE, movie.getAnnee());
         values.put(COL_SYNOPSIS, movie.getSynopsis());
-        values.put(COL_IMAGE, movie.getImgUrl());*/
+        values.put(COL_IMAGE, movie.getImgUrl());
 
         // updating row
         return db.update(TABLE_SEEN, values, COL_ID + " = ?",
                 new String[] { String.valueOf(movie.getId()) });
     }
 
-    /*Methode pour supprimer un Movie SEEN*/
-    public void deleteMovieSeen(long movieID) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_SEEN, COL_ID + " = ?",
-                new String[] { String.valueOf(movieID) });
+
+
+    /* ---------------- MÉTHODE WISHLIST --------------------- */
+
+    public Cursor listeWishlist(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //comme une ArrayListe de type Database
+        String sql = "select * from "+ TABLE_WISH
+                +" order by "+ COL_TITRE+" asc";
+        Cursor c=db.rawQuery(sql,null);
+
+        return c;
     }
 }

@@ -42,6 +42,7 @@ public class SimplePagerFragment extends Fragment {
             case 2:
                 View rootView2 = inflater.inflate(R.layout.seen_layout, container, false);
                 ListView lv2= (ListView)rootView2.findViewById(R.id.listViewSeen);
+
                 Cursor c = dbh.listeSeen();
                 if(c != null) Log.d("seen", "cursor is not null");
                 ListViewAdapter listViewAdapter = new ListViewAdapter(MainActivity.myContext,c);
@@ -51,7 +52,12 @@ public class SimplePagerFragment extends Fragment {
             case 3:
                 View rootView3 = inflater.inflate(R.layout.wishlist_layout, container, false);
                 ListView lv3 = (ListView)rootView3.findViewById(R.id.listViewWish);
-                //aller chercher le cursor contenant les films
+
+                Cursor cursor = dbh.listeWishlist();
+                if(cursor != null) Log.d("wish", "cursor is not null");
+                ListViewAdapter lva = new ListViewAdapter(MainActivity.myContext,cursor);
+                lv3.setAdapter(lva);
+
                 //si vide mettre le texte d'explication
                 return rootView3;
             case 4:
