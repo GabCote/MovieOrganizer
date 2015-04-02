@@ -2,6 +2,7 @@ package com.example.gab.movieorganizer;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,10 +31,9 @@ public class ListViewAdapter extends CursorAdapter {
         }
         Cursor c = getCursor();
         c.moveToPosition(position);
-        Log.d("seen", c.getString(c.getColumnIndex(DBHelper.COL_TITRE)));
         TextView titre = (TextView)v.findViewById(android.R.id.text1);
-        titre.setText(c.getString(c.getColumnIndex(DBHelper.COL_TITRE)));
-
+        titre.setText(c.getString(c.getColumnIndex(DBHelper.COL_TITRE))+" "+c.getString(c.getColumnIndex(DBHelper.COL_SYNOPSIS)) );
+        titre.setTextColor(Color.BLACK);
         return v;
     }
 

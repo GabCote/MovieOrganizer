@@ -45,7 +45,9 @@ public class MainActivity extends ActionBarActivity {
         //Test d'insert
         Movie m = new Movie(0,"Harry Potter",1996,"Un magicien va à Poudlard, lécole des sorciers","");
         dbh.insertMovieSeen(m);
-        Log.d("create seen","harrypotter added");
+        m = new Movie(0,"Frozen",2014,"Histoire damour entre deux soeurs","");
+        dbh.insertMovieSeen(m);
+        Log.d("create seen","INSERT added");
 
         dbh.closeDB();
 

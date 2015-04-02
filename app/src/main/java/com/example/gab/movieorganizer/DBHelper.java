@@ -98,8 +98,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         try {
         db.execSQL("INSERT INTO " +
-                TABLE_SEEN +
-                " Values (0,'" + movie.getTitre() + "','" +movie.getAnnee() + "','" +movie.getSynopsis()+ "','" + movie.getImgUrl()+ "');");
+                TABLE_SEEN +"("+COL_TITRE+","+COL_ANNEE+","+COL_SYNOPSIS+","+COL_IMAGE+")"+
+                " Values ('"+ movie.getTitre() + "','" +movie.getAnnee() + "','" +movie.getSynopsis()+ "','" + movie.getImgUrl()+ "');");
 
         }catch (Exception e){
 
