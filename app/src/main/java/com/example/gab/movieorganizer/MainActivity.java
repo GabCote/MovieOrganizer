@@ -32,11 +32,22 @@ public class MainActivity extends ActionBarActivity {
 
     ViewPager pager;
     SimplePagerAdapter adapter;
+    DBHelper dbh;
+    static Context myContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
+        myContext = getApplicationContext();
+        //Instantiate the helper
+        dbh = new DBHelper(myContext);
+        //Test d'insert
+        Movie m = new Movie(0,"Harry Potter",1996,"Un magicien va à Poudlard, lécole des sorciers","");
+        dbh.insertMovieSeen(m);
+        Log.d("create seen","harrypotter added");
+
+        dbh.closeDB();
 
         //View pager
         pager=(ViewPager)findViewById(R.id.pager);

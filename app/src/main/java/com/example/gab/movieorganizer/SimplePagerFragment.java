@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +17,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import junit.framework.Assert;
+
 import java.util.ArrayList;
 
 /**
  * Created by Anna on 19/03/2015.
  */
 public class SimplePagerFragment extends Fragment {
-    SQLiteDatabase db;
+    DBHelper dbh = new DBHelper(MainActivity.myContext);
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         Bundle args = getArguments();
@@ -39,7 +42,10 @@ public class SimplePagerFragment extends Fragment {
             case 2:
                 View rootView2 = inflater.inflate(R.layout.seen_layout, container, false);
                 ListView lv2= (ListView)rootView2.findViewById(R.id.listViewSeen);
-                //aller chercher le cursor contenant les films
+                Cursor c = dbh.listeSeen();
+                if(c != null) Log.d("seen", "cursor is not null");
+                ListViewAdapter listViewAdapter = new ListViewAdapter(MainActivity.myContext,c);
+                lv2.setAdapter(listViewAdapter);
                 //si vide mettre le texte d'explication
                 return rootView2;
             case 3:

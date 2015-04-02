@@ -16,57 +16,147 @@ public class DBHelper extends SQLiteOpenHelper {
     static final String DB_NAME = "MovieOrganizer.db";
     static final int DB_Version =1;
 
-    // table Films vus
+    //table names
     static final String TABLE_SEEN = "seen";
-    static final String S_ID = "_id";
-    static final String S_TITRE = "titre_film";
+    static final String TABLE_WISH = "wish";
 
-    // table Films a voir
-    static final String TABLE_WISHLIST = "wishlist";
-    static final String W_ID = "_id";
-    static final String W_TITRE = "titre_film";
+    // table Cols
+    static final String COL_ID = "_id";
+    static final String COL_TITRE = "titre";
+    static final String COL_ANNEE = "annee";
+    static final String COL_SYNOPSIS = "synopsis";
+    static final String COL_IMAGE = "image";
 
+    //Create table
+    //String CREATE_SEEN = "CREATE TABLE "+ TABLE_SEEN +" (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COL_TITRE + " TEXT"+ ")";
+    //String CREATE_WISH = "CREATE TABLE "+ TABLE_WISH +" (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COL_TITRE + " TEXT"+ ")";
+    String CREATE_SEEN = "create table "+TABLE_SEEN
+            +" ("+COL_ID+" integer primary key autoincrement, "
+            + COL_TITRE+" text, "
+            + COL_ANNEE+" integer, "
+            + COL_SYNOPSIS+" text,"
+            + COL_IMAGE+" text)";
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_Version);
+        // Android will look for the database defined by DB_NAME
+        // And if not found will invoke your onCreate method
+
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "create table "+TABLE_SEEN +" ("+S_ID+" primary key,"+S_TITRE+")";
-        db.execSQL(sql);
-        Log.d("DB", "database created");
+        try {
+            db.execSQL(CREATE_SEEN);
+
+            //db.execSQL(CREATE_WISH);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+            Log.d("DB", "database created");
 
 
-        ContentValues values = new ContentValues();
-        values.put(S_TITRE, "Hello World");
-
-        db = this.getWritableDatabase();
-
-        db.insert(TABLE_SEEN, null, values);
-        db.close();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table if exists "+TABLE_SEEN);
-        onCreate(db);
+        try {
+            db.execSQL("drop table if exists " + TABLE_SEEN);
+            //db.execSQL("drop table if exists " + TABLE_WISH);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+            onCreate(db);
+
     }
 
-    public Cursor listeSeen(SQLiteDatabase db){
-        //comme une ArrayListe de type Database
-        String sql = "select * from "+ TABLE_SEEN
-                +" order by "+ S_TITRE+" asc";
-        Cursor c=db.rawQuery(sql,null);
-
-        return c;
+    // closing database
+    public void closeDB() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen())
+            db.close();
     }
 
-    public Cursor listeWishlist(SQLiteDatabase db){
+/*
+    public Cursor listeWishlist(){
         //comme une ArrayListe de type Database
-        String sql = "select * from "+ TABLE_WISHLIST
+        String sql = "select * from "+ TABLE_WISH
                 +" order by "+ W_TITRE+" asc";
         Cursor c=db.rawQuery(sql,null);
 
         return c;
+    }
+*/
+    /* --------------- MOVIE SEEN MÉTHODES ---------------------------- */
+
+    /*Methode pour insérer un film dans la liste SEEN*/
+
+    public void insertMovieSeen(Movie movie) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        try {
+        db.execSQL("INSERT INTO " +
+                TABLE_SEEN +
+                " Values (0,'" + movie.getTitre() + "','" +movie.getAnnee() + "','" +movie.getSynopsis()+ "','" + movie.getImgUrl()+ "');");
+
+        }catch (Exception e){
+
+            e.printStackTrace();
+        }
+
+    }
+
+    /*Methode pour chercher un film dans les SEEN */
+    public Movie getMovieSeen(long movieID){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_SEEN + " WHERE "
+                + COL_ID + " = " + movieID;
+
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c != null)
+            c.moveToFirst();
+
+        Movie m = new Movie(c.getInt(c.getColumnIndex(COL_ID)),c.getString(c.getColumnIndex(COL_TITRE)),0,"","");
+                //,c.getInt(c.getColumnIndex(COL_ANNEE)),c.getString(c.getColumnIndex(COL_SYNOPSIS)),c.getString(c.getColumnIndex(COL_IMAGE)));
+
+        return m;
+    }
+
+    /*Methode pour avoir la liste de tous les films SEEN*/
+    public Cursor listeSeen(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //comme une ArrayListe de type Database
+        String sql = "select * from "+ TABLE_SEEN
+                +" order by "+ COL_TITRE+" asc";
+        Cursor c=db.rawQuery(sql,null);
+
+        return c;
+    }
+
+    /*Methode pour updater un Movie SEEN*/
+    public int updateMovieSeen(Movie movie){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COL_ID, movie.getId());
+        values.put(COL_TITRE, movie.getTitre());/*
+        values.put(COL_ANNEE, movie.getAnnee());
+        values.put(COL_SYNOPSIS, movie.getSynopsis());
+        values.put(COL_IMAGE, movie.getImgUrl());*/
+
+        // updating row
+        return db.update(TABLE_SEEN, values, COL_ID + " = ?",
+                new String[] { String.valueOf(movie.getId()) });
+    }
+
+    /*Methode pour supprimer un Movie SEEN*/
+    public void deleteMovieSeen(long movieID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SEEN, COL_ID + " = ?",
+                new String[] { String.valueOf(movieID) });
     }
 }

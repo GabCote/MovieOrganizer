@@ -2,6 +2,7 @@ package com.example.gab.movieorganizer;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +30,9 @@ public class ListViewAdapter extends CursorAdapter {
         }
         Cursor c = getCursor();
         c.moveToPosition(position);
-
+        Log.d("seen", c.getString(c.getColumnIndex(DBHelper.COL_TITRE)));
         TextView titre = (TextView)v.findViewById(android.R.id.text1);
-        titre.setText(c.getString(c.getColumnIndex(DBHelper.S_TITRE)));
+        titre.setText(c.getString(c.getColumnIndex(DBHelper.COL_TITRE)));
 
         return v;
     }
