@@ -42,7 +42,6 @@ public class MainActivity extends ActionBarActivity {
         pager=(ViewPager)findViewById(R.id.pager);
         adapter= new SimplePagerAdapter(getSupportFragmentManager()); //support provient du import android.support sinon aucun support
         pager.setAdapter(adapter);
-
         //POUR LE ACTION BAR
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -105,67 +104,12 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            new DownloadNouveautes().execute();
+            new DownloadFromApi().execute();
             Toast.makeText(getApplicationContext(), "On a clique sur les settings!!", Toast.LENGTH_SHORT).show();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-    private class DownloadNouveautes extends AsyncTask<String, String, RottenTomatoesWebApi> {
-
-        // Cette méthode s'exécute dans le thread de l'interface. C'est le bon endroit pour notifier l'usager
-        // qu'une tâche plus longue commence (par exemple, afficher une barre de progression).
-        @Override
-        protected void onPreExecute() {
-            // Affiche la barre de progression
-            //pb.setVisibility(View.VISIBLE);
-        }
-
-        // Cette méthode est exécutée dans son propre thread. C'est là où le travail le plus lourd se passe.
-        // On pourra appeler publishProgress durant l'exécution de cette méthode pour mettre à jour le thread d'interface.
-        @Override
-        protected RottenTomatoesWebApi doInBackground(String... params) {
-            RottenTomatoesWebApi web = new RottenTomatoesWebApi("Accueil");
-            return web;
-        }
-
-        // Cette méthode est appelée dans le thread d'interface lorsque publishProgress est appelée dans doInBackground.
-        // Les paramètres sont passés directement de l'une à l'autre.
-        @Override
-        protected void onProgressUpdate(String... s) {
-            // éxécute dans le thread interface, si le thread non-interface
-            // appelle publishProgress à l'intérieur de doInBackground
-        }
-
-        // Cette méthode s'exécute dans le thread d'interface. C'est l'endroit où on réagit généralement à la complétion du
-        // processus en arrière-plan, par exemple en mettant à jour l'interface avec les données obtenues.
-        @Override
-        protected void onPostExecute(RottenTomatoesWebApi web) {
-            // Cache la barre de progression
-            //pb.setVisibility(View.INVISIBLE);
-
-            // On s'assure que l'objet de retour existe
-            // et qu'il n'ait pas d'erreurs
-            if( web == null ) {
-                Toast.makeText(MainActivity.this, getText(R.string.fatal_error), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if( web.erreur != null ) {
-                Toast.makeText(MainActivity.this, web.erreur, Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Toast.makeText(MainActivity.this, "Meteo a jour a partir de AsyncTask" , Toast.LENGTH_SHORT).show();
-            // Si tout est OK, on met l'interface à jour
-            //temperature.setText(web.temperature);
-            //condition.setText(web.conditions);
-            //city.setText(web.ville);
-            //time.setText(web.depuis);
-            //icone.setImageDrawable(web.icone);
-        }
-
     }
 
     private class SimplePagerAdapter extends FragmentPagerAdapter{

@@ -16,51 +16,44 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by Émile on 2015-03-24.
  */
 public class RottenTomatoesWebApi {
 
+    final String  API_KEY = "xbut6w49ap4qtjh22kz2fg7q";
     // Sera null s'il n'y a pas d'erreur
     String erreur = null;
 
     int total=12345;
     int page_limit = 16;
-    String apiKey = "dmazmwz6h6hymzv5sbyws8cw";
+
     String country = "ca";
     String url;
+    String currentPage = "";
+    ArrayList<Movie> movies;
 
-    RottenTomatoesWebApi(String param) {
-        switch (param){
-            case "Accueil": url="http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey="+apiKey+"&page_limit="+Integer.toString(page_limit)+"&country="+country;
-                 //ce sera ça: http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey=dmazmwz6h6hymzv5sbyws8cw&page_limit=16&country=ca
-                 //c'est l'url pour prendre les Upcoming Movies
-
-                //http://developer.rottentomatoes.com/docs/read/json/v10/Upcoming_Movies
-                //pour en savoir plus sur les Upcoming Movies avec l'API
-                break;
-            case "Recherche":url=null;
-                break;
-            case "Autre chose blablabla": url="http........";
-                break;
-
-        }
+    RottenTomatoesWebApi(String pCurrentPAge) {
+        currentPage = pCurrentPAge;
+        url = getApiUrl(pCurrentPAge);
 
         Log.d("URL", "Affichage de l'url:"+url);
         try {
             // Charge le fichier JSON à l'URL donné depuis le web
             HttpEntity page = getHttp(url);
             // Interprète la page retournée comme un fichier JSON encodé en UTF-8
-            JSONObject js = new JSONObject(EntityUtils.toString(page, HTTP.UTF_8));
+            String contenu = EntityUtils.toString(page, HTTP.UTF_8);
+            JSONObject js = new JSONObject(contenu);
 
-            switch(param){
+            switch(pCurrentPAge){
                 case "Accueil":
 
                     // Le format de ce JSON stocke les informations actuelles dans un sous-objet "movies"
                     JSONArray moviesjson = js.getJSONArray("movies");
                     total = moviesjson.length();
-                    Movie tableauFilm[] = new Movie[total];
+                    movies = new ArrayList<Movie>();
 
                     for(int i=0; i<total; i++){
                         JSONObject movie = moviesjson.getJSONObject(i);
@@ -68,8 +61,11 @@ public class RottenTomatoesWebApi {
                         String titre = movie.getString("title");
                         int annee = movie.getInt("year");
                         String synopsis = movie.getString("synopsis");
-                        Movie movie1 = new Movie(id,titre,annee, synopsis);
-                        tableauFilm[i] = movie1;
+
+                        JSONObject posters = movie.getJSONObject("posters");
+                        String thumbnail = posters.getString("thumbnail");
+                        Movie movie1 = new Movie(id,titre,annee, synopsis, thumbnail);
+                        movies.add(movie1);
 
                         Log.d("FILMS1","Affichage des films :"+movie1.toString());
                     }
@@ -114,6 +110,31 @@ public class RottenTomatoesWebApi {
         return response.getEntity();
     }
 
+    public String getApiUrl(String pCurrentPage){
+        switch (pCurrentPage){
+            case "Accueil": return "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey="+API_KEY+"&page_limit="+Integer.toString(page_limit)+"&country="+country;
+                //ce sera ça: http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey=dmazmwz6h6hymzv5sbyws8cw&page_limit=16&country=ca
+                //c'est l'url pour prendre les Upcoming Movies
+
+                //http://developer.rottentomatoes.com/docs/read/json/v10/Upcoming_Movies
+                //pour en savoir plus sur les Upcoming Movies avec l'API
+
+            case "Recherche":return null;
+
+            case "Autre chose blablabla": return "http........";
+
+            default: return null;
+
+        }
+    }
+
+    public String getCurrentPage(){
+        return currentPage;
+    }
+
+    public ArrayList<Movie> getMovies(){
+        return movies;
+    }
     /*
      * Méthode utilitaire qui permet
      * d'obtenir une image depuis une URL.

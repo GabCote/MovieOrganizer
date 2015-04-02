@@ -5,13 +5,15 @@ package com.example.gab.movieorganizer;
  */
 public class Movie {
     int id, annee;
-    String titre, synopsis;
+    String titre, synopsis, imgUrl;
 
-    public Movie(int id, String titre,int annee, String synopsis) {
+    public Movie(int id, String titre,int annee, String synopsis, String imgUrl) {
         this.id = id;
         this.titre = titre;
         this.annee = annee;
         this.synopsis = synopsis;
+        this.imgUrl = imgUrl;
+
     }
 
     @Override
@@ -54,5 +56,13 @@ public class Movie {
 
     public void setSynopsis(String synopsis) {
         this.synopsis = synopsis;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

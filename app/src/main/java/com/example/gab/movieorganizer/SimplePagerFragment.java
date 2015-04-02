@@ -26,14 +26,15 @@ public class SimplePagerFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         Bundle args = getArguments();
-
         switch(args.getInt("id")+1){//ne pas commencer par zero (id +1)
             case 1:
                 View rootView1 = inflater.inflate(R.layout.home_layout, container, false);
-
+                new DownloadFromApi(rootView1).execute("Accueil");
+                //TextView textViewUpcoming = (TextView) rootView1.findViewById(R.id.textViewUpcoming);
+               // textViewUpcoming.setText("whats upp");
                 //GRIDVIEW
-                GridView gridview = (GridView)rootView1.findViewById(R.id.gridView);
-                gridview.setAdapter(new GridViewAdapter(getActivity()));
+                //GridView gridview = (GridView)rootView1.findViewById(R.id.gridView);
+               // gridview.setAdapter(new GridViewAdapter(getActivity(), ));
                 return rootView1;
             case 2:
                 View rootView2 = inflater.inflate(R.layout.seen_layout, container, false);
