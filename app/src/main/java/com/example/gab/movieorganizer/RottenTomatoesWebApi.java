@@ -139,7 +139,7 @@ public class RottenTomatoesWebApi {
                 //http://developer.rottentomatoes.com/docs/read/json/v10/Upcoming_Movies
                 //pour en savoir plus sur les Upcoming Movies avec l'API
 
-            case "Recherche":return "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey="+API_KEY+"&q="+ pQueryStr + "&page_limit=15";
+            case "Recherche":return "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey="+API_KEY+"&q="+ pQueryStr + "&page_limit=1";
 
             case "Autre chose blablabla": return "http........";
 
