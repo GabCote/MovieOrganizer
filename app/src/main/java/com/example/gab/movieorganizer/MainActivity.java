@@ -24,6 +24,7 @@ import android.widget.CursorAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,11 +44,11 @@ public class MainActivity extends ActionBarActivity {
         //Instantiate the helper
         dbh = new DBHelper(myContext);
         //Test d'insert
-        Movie m = new Movie(0,"Harry Potter",1996,"Un magicien va à Poudlard, lécole des sorciers","");
+        Movie m = new Movie(0,"Harry Potter",1996,"Un magicien va à Poudlard, lécole des sorciers",93.1,"");
         dbh.insertMovie(m,DBHelper.TABLE_SEEN);
-        m = new Movie(0,"Frozen",2014,"Histoire damour entre deux soeurs","");
+        m = new Movie(0,"Frozen",2014,"Histoire damour entre deux soeurs",98.4,"");
         dbh.insertMovie(m,DBHelper.TABLE_SEEN);
-        m = new Movie(0,"James Bond",2015,"Daniel Craig is hot","");
+        m = new Movie(0,"James Bond",2015,"Daniel Craig is hot",83.4,"");
         dbh.insertMovie(m,DBHelper.TABLE_WISH);
         Log.d("insert","all added");
 
@@ -159,5 +160,7 @@ public class MainActivity extends ActionBarActivity {
             }
         }
     };
+
+
 
 }

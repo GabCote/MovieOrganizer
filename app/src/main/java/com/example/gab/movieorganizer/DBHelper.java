@@ -26,6 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
     static final String COL_ANNEE = "annee";
     static final String COL_SYNOPSIS = "synopsis";
     static final String COL_IMAGE = "image";
+    static final String COL_RATING = "rating";
 
     //Create table
     String CREATE_SEEN = "create table "+TABLE_SEEN
@@ -33,6 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + COL_TITRE+" text, "
             + COL_ANNEE+" integer, "
             + COL_SYNOPSIS+" text,"
+            + COL_RATING+" text,"
             + COL_IMAGE+" text)";
 
     String CREATE_WISH = "create table "+TABLE_WISH
@@ -40,6 +42,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + COL_TITRE+" text, "
             + COL_ANNEE+" integer, "
             + COL_SYNOPSIS+" text,"
+            + COL_RATING+" double,"
             + COL_IMAGE+" text)";
 
     public DBHelper(Context context) {
@@ -95,8 +98,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         try {
         db.execSQL("INSERT INTO " +
-                table_name +"("+COL_TITRE+","+COL_ANNEE+","+COL_SYNOPSIS+","+COL_IMAGE+")"+
-                " Values ('"+ movie.getTitre() + "','" +movie.getAnnee() + "','" +movie.getSynopsis()+ "','" + movie.getImgUrl()+ "');");
+                table_name +"("+COL_TITRE+","+COL_ANNEE+","+COL_SYNOPSIS+","+COL_RATING+","+COL_IMAGE+")"+
+                " Values ('"+ movie.getTitre() + "','" +movie.getAnnee() + "','" +movie.getSynopsis()+ "','" +movie.getRating() +"','" + movie.getImgUrl()+ "');");
 
         }catch (Exception e){
 
@@ -125,18 +128,18 @@ public class DBHelper extends SQLiteOpenHelper {
         if (c != null)
             c.moveToFirst();
 
-        Movie m = new Movie(c.getInt(c.getColumnIndex(COL_ID)),c.getString(c.getColumnIndex(COL_TITRE)),c.getInt(c.getColumnIndex(COL_ANNEE)),c.getString(c.getColumnIndex(COL_SYNOPSIS)),c.getString(c.getColumnIndex(COL_IMAGE)));
+        Movie m = new Movie(c.getInt(c.getColumnIndex(COL_ID)),c.getString(c.getColumnIndex(COL_TITRE)),c.getInt(c.getColumnIndex(COL_ANNEE)),c.getString(c.getColumnIndex(COL_SYNOPSIS)),c.getDouble(c.getColumnIndex(COL_RATING)),c.getString(c.getColumnIndex(COL_IMAGE)));
 
         return m;
     }
 
     /*Methode pour avoir la liste de tous les films SEEN*/
-    public Cursor listeSeen(){
+    public Cursor listeSeen(String sort){
         SQLiteDatabase db = this.getReadableDatabase();
 
         //comme une ArrayListe de type Database
         String sql = "select * from "+ TABLE_SEEN
-                +" order by "+ COL_TITRE+" asc";
+                +" order by "+ sort+" asc";
         Cursor c=db.rawQuery(sql,null);
 
         return c;
@@ -151,6 +154,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(COL_TITRE, movie.getTitre());
         values.put(COL_ANNEE, movie.getAnnee());
         values.put(COL_SYNOPSIS, movie.getSynopsis());
+        values.put(COL_RATING, movie.getRating());
         values.put(COL_IMAGE, movie.getImgUrl());
 
         // updating row
@@ -162,12 +166,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /* ---------------- MÉTHODE WISHLIST --------------------- */
 
-    public Cursor listeWishlist(){
+    public Cursor listeWishlist(String sort){
         SQLiteDatabase db = this.getReadableDatabase();
 
         //comme une ArrayListe de type Database
         String sql = "select * from "+ TABLE_WISH
-                +" order by "+ COL_TITRE+" asc";
+                +" order by "+ sort+" asc";
         Cursor c=db.rawQuery(sql,null);
 
         return c;

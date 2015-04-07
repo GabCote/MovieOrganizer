@@ -62,8 +62,7 @@ public class GridViewAdapter  extends BaseAdapter {
         Movie currentMovie = movies.get(position);
 
         new ImageLoadTask(currentMovie.getImgUrl(),imageView).execute();
-        //chercher les images de l'API
-        //imageView.setImageResource();
+
         return imageView;
     }
 }

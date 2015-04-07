@@ -38,21 +38,18 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/sort_by"
                     android:id="@+id/textView" />
-
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/alphabetic"
+                    android:id="@+id/alphabeticRBWish"
+                    android:checked="true" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/rating"
                     android:id="@+id/ratingRBSearch"
                     android:checked="false" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/alphabetic"
-                    android:id="@+id/alphabeticRBSearch"
-                    android:checked="true" />
-
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

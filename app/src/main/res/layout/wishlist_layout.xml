@@ -17,28 +17,41 @@
             android:text="@string/sort_by"
             android:id="@+id/sortByTVWish" />
 
-        <RadioButton
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/alphabetic"
-            android:id="@+id/alphabeticRBWish"
-            android:checked="true" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/year"
-            android:id="@+id/yearRBWish"
-            android:checked="false" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rating"
-            android:id="@+id/ratingRBWish"
-            android:checked="false" />
+            android:id="@+id/radioGroupWish"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alphabetic"
+                android:id="@+id/alphabeticRBWish"
+                android:checked="true" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/year"
+                android:id="@+id/yearRBSeen"
+                android:layout_gravity="center_horizontal"
+                android:checked="false" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rating"
+                android:id="@+id/ratingRBSeen"
+                android:checked="false" />
+        </RadioGroup>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/textWish"
+        android:layout_gravity="center_horizontal" />
 
     <ListView
         android:layout_width="wrap_content"

@@ -5,14 +5,16 @@ package com.example.gab.movieorganizer;
  */
 public class Movie {
     int id, annee;
+    double rating;
     String titre, synopsis, imgUrl;
 
-    public Movie(int id, String titre,int annee, String synopsis, String imgUrl) {
+    public Movie(int id, String titre,int annee, String synopsis, double rating, String imgUrl) {
         this.id = id;
         this.titre = titre;
         this.annee = annee;
         this.synopsis = synopsis;
         this.imgUrl = imgUrl;
+        this.rating = rating;
 
     }
 
@@ -23,6 +25,7 @@ public class Movie {
                 ", annee=" + annee +
                 ", titre='" + titre + '\'' +
                 ", synopsis='" + synopsis + '\'' +
+                ", rating='" + rating + '\'' +
                 '}';
     }
 
@@ -64,5 +67,13 @@ public class Movie {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 }
