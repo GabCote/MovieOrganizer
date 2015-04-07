@@ -35,9 +35,10 @@ public class RottenTomatoesWebApi {
     String currentPage = "";
     ArrayList<Movie> movies;
 
-    RottenTomatoesWebApi(String pCurrentPAge) {
+    RottenTomatoesWebApi(String pCurrentPAge, String pQueryStr) {
         currentPage = pCurrentPAge;
-        url = getApiUrl(pCurrentPAge);
+        url = getApiUrl(pCurrentPAge, pQueryStr);
+        JSONArray moviesjson;
 
         Log.d("URL", "Affichage de l'url:"+url);
         try {
@@ -51,7 +52,7 @@ public class RottenTomatoesWebApi {
                 case "Accueil":
 
                     // Le format de ce JSON stocke les informations actuelles dans un sous-objet "movies"
-                    JSONArray moviesjson = js.getJSONArray("movies");
+                    moviesjson = js.getJSONArray("movies");
                     total = moviesjson.length();
                     movies = new ArrayList<Movie>();
 
@@ -71,6 +72,25 @@ public class RottenTomatoesWebApi {
                     }
                     break;
                 case "Recherche":
+                    // Le format de ce JSON stocke les informations actuelles dans un sous-objet "movies"
+                    moviesjson = js.getJSONArray("movies");
+                    total = moviesjson.length();
+                    movies = new ArrayList<Movie>();
+
+                    for(int i=0; i<total; i++){
+                        JSONObject movie = moviesjson.getJSONObject(i);
+                        int id = movie.getInt("id");
+                        String titre = movie.getString("title");
+                        int annee = movie.getInt("year");
+                        String synopsis = movie.getString("synopsis");
+
+                        JSONObject posters = movie.getJSONObject("posters");
+                        String thumbnail = posters.getString("thumbnail");
+                        Movie movie1 = new Movie(id,titre,annee, synopsis, thumbnail);
+                        movies.add(movie1);
+
+                        Log.d("FILMS1","Affichage des films :"+movie1.toString());
+                    }
                     break;
 
 
@@ -110,7 +130,7 @@ public class RottenTomatoesWebApi {
         return response.getEntity();
     }
 
-    public String getApiUrl(String pCurrentPage){
+    public String getApiUrl(String pCurrentPage, String pQueryStr){
         switch (pCurrentPage){
             case "Accueil": return "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey="+API_KEY+"&page_limit="+Integer.toString(page_limit)+"&country="+country;
                 //ce sera ça: http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey=dmazmwz6h6hymzv5sbyws8cw&page_limit=16&country=ca
@@ -119,7 +139,7 @@ public class RottenTomatoesWebApi {
                 //http://developer.rottentomatoes.com/docs/read/json/v10/Upcoming_Movies
                 //pour en savoir plus sur les Upcoming Movies avec l'API
 
-            case "Recherche":return null;
+            case "Recherche":return "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey="+API_KEY+"&q="+ pQueryStr + "&page_limit=15";
 
             case "Autre chose blablabla": return "http........";
 

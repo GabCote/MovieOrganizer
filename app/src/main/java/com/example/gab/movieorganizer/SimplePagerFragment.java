@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 /**
  * Created by Anna on 19/03/2015.
  */
-public class SimplePagerFragment extends Fragment {
+public class SimplePagerFragment extends Fragment implements View.OnClickListener{
     DBHelper dbh = new DBHelper(MainActivity.myContext);
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -32,7 +33,8 @@ public class SimplePagerFragment extends Fragment {
         switch(args.getInt("id")+1){//ne pas commencer par zero (id +1)
             case 1:
                 View rootView1 = inflater.inflate(R.layout.home_layout, container, false);
-                new DownloadFromApi(rootView1).execute("Accueil");
+                TaskParamsRottenTomatoesApi paramsDownload = new TaskParamsRottenTomatoesApi("Accueil", null);
+                new DownloadFromApi(rootView1).execute(paramsDownload);
                 //TextView textViewUpcoming = (TextView) rootView1.findViewById(R.id.textViewUpcoming);
                // textViewUpcoming.setText("whats upp");
                 //GRIDVIEW
@@ -63,11 +65,25 @@ public class SimplePagerFragment extends Fragment {
             case 4:
                 View rootView4 = inflater.inflate(R.layout.research_layout, container, false);
                 ListView lv4 = (ListView)rootView4.findViewById(R.id.listViewSearch);
+                Button searchButton = (Button) rootView4.findViewById(R.id.searchButton);
+                searchButton.setOnClickListener(this);
                 //aller chercher le cursor contenant les films de la recherche
                 //si vide laisse blank?
                 return rootView4;
             default: return null;
         }
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.searchButton){
+
+            View rootView = (View) v.getRootView();
+            TextView QueryTextView = (TextView)rootView.findViewById(R.id.requete);
+            String queryStr = QueryTextView.getText().toString();
+            TaskParamsRottenTomatoesApi downloadParams = new TaskParamsRottenTomatoesApi("Recherche", queryStr);
+            new DownloadFromApi(rootView).execute(downloadParams);
+        }
     }
 }

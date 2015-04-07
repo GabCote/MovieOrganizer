@@ -3,17 +3,26 @@ package com.example.gab.movieorganizer;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 /**
  * Created by Gab on 4/2/2015.
  */
-public class DownloadFromApi extends AsyncTask<String, String, RottenTomatoesWebApi> {
+public class DownloadFromApi extends AsyncTask<TaskParamsRottenTomatoesApi, String, RottenTomatoesWebApi> {
 
     View currentView;
     public DownloadFromApi(){
         super();
+    }
+
+    @Override
+    protected RottenTomatoesWebApi doInBackground(TaskParamsRottenTomatoesApi... params) {
+        String currentPageName = params[0].pageName;
+        String queryStr = params[0].queryStr;
+        RottenTomatoesWebApi web = new RottenTomatoesWebApi(currentPageName, queryStr);
+        return web;
     }
 
     public DownloadFromApi(View pCurrentView){
@@ -26,15 +35,6 @@ public class DownloadFromApi extends AsyncTask<String, String, RottenTomatoesWeb
     protected void onPreExecute() {
         // Affiche la barre de progression
         //pb.setVisibility(View.VISIBLE);
-    }
-
-    // Cette méthode est exécutée dans son propre thread. C'est là où le travail le plus lourd se passe.
-    // On pourra appeler publishProgress durant l'exécution de cette méthode pour mettre à jour le thread d'interface.
-    @Override
-    protected RottenTomatoesWebApi doInBackground(String... params) {
-        String currentPageName = params[0];
-        RottenTomatoesWebApi web = new RottenTomatoesWebApi(currentPageName);
-        return web;
     }
 
     // Cette méthode est appelée dans le thread d'interface lorsque publishProgress est appelée dans doInBackground.
@@ -69,6 +69,10 @@ public class DownloadFromApi extends AsyncTask<String, String, RottenTomatoesWeb
                gridview.setAdapter(gridViewAdapter);
                // Toast.makeText(MainActivity.this, "On reussi a obtenir un webapi non null et sans erreur", Toast.LENGTH_SHORT).show();
                 break;
+            case "Recherche":
+                ListView listViewSearch = (ListView)currentView.findViewById(R.id.listViewSearch);
+                SearchListViewAdapter searchListViewAdapter = new SearchListViewAdapter(currentView.getContext(), web.getMovies());
+                listViewSearch.setAdapter(searchListViewAdapter);
             default:
                 break;
         }
