@@ -16,28 +16,31 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/sort_by"
             android:id="@+id/sortByTVWish" />
-
-        <RadioButton
+        <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/alphabetic"
-            android:id="@+id/alphabeticRBWish"
-            android:checked="true" />
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alphabetic"
+                android:id="@+id/alphabeticRBWish"
+                android:checked="true" />
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/year"
-            android:id="@+id/yearRBWish"
-            android:checked="false" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/year"
+                android:id="@+id/yearRBWish"
+                android:checked="false" />
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rating"
-            android:id="@+id/ratingRBWish"
-            android:checked="false" />
-
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rating"
+                android:id="@+id/ratingRBWish"
+                android:checked="false" />
+        </RadioGroup>
     </LinearLayout>
 
     <ListView
