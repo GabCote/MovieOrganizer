@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 /**
  * Created by Anna on 19/03/2015.
  */
-public class SimplePagerFragment extends Fragment {
+public class SimplePagerFragment extends Fragment implements View.OnClickListener{
     DBHelper dbh = new DBHelper(MainActivity.myContext);
     View rootView2;
     ListView lv2, lv3;
@@ -36,13 +37,18 @@ public class SimplePagerFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         Bundle args = getArguments();
-        switch(args.getInt("id")){//ne pas commencer par zero (id +1)
-            case 0:
-                View rootView1 = inflater.inflate(R.layout.home_layout, container, false);
-                new DownloadFromApi(rootView1).execute("Accueil");
-
-                return rootView1;
+        switch(args.getInt("id")+1){//ne pas commencer par zero (id +1)
             case 1:
+                View rootView1 = inflater.inflate(R.layout.home_layout, container, false);
+                TaskParamsRottenTomatoesApi paramsDownload = new TaskParamsRottenTomatoesApi("Accueil", null);
+                new DownloadFromApi(rootView1).execute(paramsDownload);
+                //TextView textViewUpcoming = (TextView) rootView1.findViewById(R.id.textViewUpcoming);
+               // textViewUpcoming.setText("whats upp");
+                //GRIDVIEW
+                //GridView gridview = (GridView)rootView1.findViewById(R.id.gridView);
+               // gridview.setAdapter(new GridViewAdapter(getActivity(), ));
+                return rootView1;
+            case 2:
                 rootView2 = inflater.inflate(R.layout.seen_layout, container, false);
                 lv2= (ListView)rootView2.findViewById(R.id.listViewSeen);
 
@@ -89,7 +95,7 @@ public class SimplePagerFragment extends Fragment {
                 });
 
                 return rootView2;
-            case 2:
+            case 3:
 
                 View rootView3 = inflater.inflate(R.layout.wishlist_layout, container, false);
                 lv3 = (ListView)rootView3.findViewById(R.id.listViewWish);
@@ -136,15 +142,29 @@ public class SimplePagerFragment extends Fragment {
                 });
 
                 return rootView3;
-            case 3:
+            case 4:
 
                 View rootView4 = inflater.inflate(R.layout.research_layout, container, false);
                 ListView lv4 = (ListView)rootView4.findViewById(R.id.listViewSearch);
+                Button searchButton = (Button) rootView4.findViewById(R.id.searchButton);
+                searchButton.setOnClickListener(this);
                 //aller chercher le cursor contenant les films de la recherche
                 //si vide laisse blank?
                 return rootView4;
             default: return null;
         }
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.searchButton){
+
+            View rootView = (View) v.getRootView();
+            TextView QueryTextView = (TextView)rootView.findViewById(R.id.requete);
+            String queryStr = QueryTextView.getText().toString();
+            TaskParamsRottenTomatoesApi downloadParams = new TaskParamsRottenTomatoesApi("Recherche", queryStr);
+            new DownloadFromApi(rootView).execute(downloadParams);
+        }
     }
 }
