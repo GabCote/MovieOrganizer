@@ -4,11 +4,12 @@ package com.example.gab.movieorganizer;
  * Created by Émile on 2015-03-24.
  */
 public class Movie {
-    int id, annee;
+    int id;
+    Integer annee;
     double rating;
     String titre, synopsis, imgUrl;
 
-    public Movie(int id, String titre,int annee, String synopsis, double rating, String imgUrl) {
+    public Movie(int id, String titre,Integer annee, String synopsis, double rating, String imgUrl) {
         this.id = id;
         this.titre = titre;
         this.annee = annee;
@@ -37,11 +38,11 @@ public class Movie {
         this.id = id;
     }
 
-    public int getAnnee() {
+    public Integer getAnnee() {
         return annee;
     }
 
-    public void setAnnee(int annee) {
+    public void setAnnee(Integer annee) {
         this.annee = annee;
     }
 

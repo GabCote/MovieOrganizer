@@ -48,6 +48,8 @@ public class RottenTomatoesWebApi {
             String contenu = EntityUtils.toString(page, HTTP.UTF_8);
             JSONObject js = new JSONObject(contenu);
 
+            //pas encore sur si on garde le switch, je pense qu'on va aller chercher la meme info des films
+            //peu importe la page, on verra.
             switch(pCurrentPAge){
                 case "Accueil":
 
@@ -60,7 +62,7 @@ public class RottenTomatoesWebApi {
                         JSONObject movie = moviesjson.getJSONObject(i);
                         int id = movie.getInt("id");
                         String titre = movie.getString("title");
-                        int annee = movie.getInt("year");
+                        Integer annee = movie.getInt("year");
                         String synopsis = movie.getString("synopsis");
 
                         JSONObject posters = movie.getJSONObject("posters");
@@ -78,10 +80,17 @@ public class RottenTomatoesWebApi {
                     movies = new ArrayList<Movie>();
 
                     for(int i=0; i<total; i++){
+                        Integer annee;
                         JSONObject movie = moviesjson.getJSONObject(i);
                         int id = movie.getInt("id");
                         String titre = movie.getString("title");
-                        int annee = movie.getInt("year");
+
+                        String anneeStr = movie.getString("year");
+                        if (Utilities.isStringInt(anneeStr)){
+                            annee = movie.getInt("year");
+                        } else{
+                            annee = null;
+                        }
                         String synopsis = movie.getString("synopsis");
 
                         JSONObject posters = movie.getJSONObject("posters");
@@ -139,7 +148,7 @@ public class RottenTomatoesWebApi {
                 //http://developer.rottentomatoes.com/docs/read/json/v10/Upcoming_Movies
                 //pour en savoir plus sur les Upcoming Movies avec l'API
 
-            case "Recherche":return "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey="+API_KEY+"&q="+ pQueryStr + "&page_limit=1";
+            case "Recherche":return "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey="+API_KEY+"&q="+ pQueryStr + "&page_limit=16";
 
             case "Autre chose blablabla": return "http........";
 

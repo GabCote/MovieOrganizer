@@ -18,7 +18,7 @@
             <EditText
                 android:layout_width="296dp"
                 android:layout_height="wrap_content"
-                android:text="@string/requete_indice"
+                android:hint="@string/requete_indice"
                 android:id="@+id/requete" />
 
             <Button
@@ -38,24 +38,31 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/sort_by"
                     android:id="@+id/textView" />
-                <RadioButton
+
+                <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/alphabetic"
-                    android:id="@+id/alphabeticRBWish"
-                    android:checked="true" />
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rating"
-                    android:id="@+id/ratingRBSearch"
-                    android:checked="false" />
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/year"
-                    android:id="@+id/yearRBSearch"
-                    android:checked="false" />
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/alphabetic"
+                        android:id="@+id/alphabeticRBSearch"
+                        android:checked="true" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rating"
+                        android:id="@+id/ratingRBSearch"
+                        android:checked="false" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/year"
+                        android:id="@+id/yearRBSearch"
+                        android:checked="false" />
+                </RadioGroup>
+
             </LinearLayout>
 
         </LinearLayout>
