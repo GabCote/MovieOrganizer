@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class SimplePagerFragment extends Fragment implements View.OnClickListener{
     DBHelper dbh = new DBHelper(MainActivity.myContext);
     View rootView2;
-    ListView lv2, lv3;
+    ListView lv2, lv3, lv4;
     TextView textSeen;
     Cursor c;
     ListViewAdapter listViewAdapter;
@@ -145,9 +145,11 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
             case 4:
 
                 View rootView4 = inflater.inflate(R.layout.research_layout, container, false);
-                ListView lv4 = (ListView)rootView4.findViewById(R.id.listViewSearch);
+                lv4 = (ListView)rootView4.findViewById(R.id.listViewSearch);
                 Button searchButton = (Button) rootView4.findViewById(R.id.searchButton);
                 searchButton.setOnClickListener(this);
+
+                RadioGroup rg4 = (RadioGroup)rootView4.findViewById(R.id.radioGroupSearch);
                 //aller chercher le cursor contenant les films de la recherche
                 //si vide laisse blank?
                 return rootView4;

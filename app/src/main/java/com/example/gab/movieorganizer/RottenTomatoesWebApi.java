@@ -92,10 +92,11 @@ public class RottenTomatoesWebApi {
                             annee = null;
                         }
                         String synopsis = movie.getString("synopsis");
+                        //faudrait rajouter le rating des films!
 
                         JSONObject posters = movie.getJSONObject("posters");
                         String thumbnail = posters.getString("thumbnail");
-                        Movie movie1 = new Movie(id,titre,annee, synopsis, thumbnail);
+                        Movie movie1 = new Movie(id,titre,annee, synopsis,0, thumbnail);
                         movies.add(movie1);
 
                         Log.d("FILMS1","Affichage des films :"+movie1.toString());
