@@ -13,6 +13,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class SearchListViewAdapter  extends BaseAdapter {
@@ -50,33 +52,12 @@ public class SearchListViewAdapter  extends BaseAdapter {
         ImageView imageViewMovie = (ImageView) v.findViewById(R.id.imageViewMovie);
         TextView textViewMovieTitle = (TextView) v.findViewById(R.id.textViewMovieTitle);
         Movie currentMovie = movies.get(position);
-        if (imageViewMovie.getDrawable() == null) {
-            new ImageLoadTask(currentMovie.getImgUrl(), imageViewMovie).execute();
-        }
+        Picasso.with(v.getContext()).load(currentMovie.getImgUrl()).into(imageViewMovie);
         textViewMovieTitle.setText(currentMovie.getTitre().toString());
         //chercher les images de l'API
         //imageView.setImageResource();
         return v;
     }
 }
-
-   /* @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView;
-        if (convertView == null) {
-            // if it's not recycled, initialize some attributes
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
-            imageView.setPadding(8, 8, 8, 8);
-        } else {
-            imageView = (ImageView) convertView;
-        }
-        Movie currentMovie = movies.get(position);
-
-        new ImageLoadTask(currentMovie.getImgUrl(),imageView).execute();
-        //chercher les images de l'API
-        //imageView.setImageResource();
-        return imageView;
-    }*/
 
 
