@@ -11,6 +11,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -61,8 +63,10 @@ public class GridViewAdapter  extends BaseAdapter {
         }
         Movie currentMovie = movies.get(position);
 
-        new ImageLoadTask(currentMovie.getImgUrl(),imageView).execute();
-
+        Picasso.with(imageView.getContext()).load(currentMovie.getImgUrl()).into(imageView);
+        //new ImageLoadTask(currentMovie.getImgUrl(),imageView).execute();
+        //chercher les images de l'API
+        //imageView.setImageResource();
         return imageView;
     }
 }
