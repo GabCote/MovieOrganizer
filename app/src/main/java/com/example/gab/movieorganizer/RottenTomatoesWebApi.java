@@ -76,11 +76,15 @@ public class RottenTomatoesWebApi {
                 case "Recherche":
                     // Le format de ce JSON stocke les informations actuelles dans un sous-objet "movies"
                     moviesjson = js.getJSONArray("movies");
+
                     total = moviesjson.length();
                     movies = new ArrayList<Movie>();
 
                     for(int i=0; i<total; i++){
+                        Log.d("json", moviesjson.getJSONObject(i)+"");
                         Integer annee;
+                        int ratingScore;
+                        String rating;
                         JSONObject movie = moviesjson.getJSONObject(i);
                         int id = movie.getInt("id");
                         String titre = movie.getString("title");
@@ -92,11 +96,19 @@ public class RottenTomatoesWebApi {
                             annee = null;
                         }
                         String synopsis = movie.getString("synopsis");
-                        //faudrait rajouter le rating des films!
+
+                        JSONObject rate = movie.getJSONObject("ratings");
+                        Log.d("rate",rate+"");
+                        String ratingStr = rate.getString("audience_score");
+                        if (Utilities.isStringInt(ratingStr)){
+                            ratingScore = rate.getInt("audience_score");
+                        } else{
+                            ratingScore = 0;
+                        }
 
                         JSONObject posters = movie.getJSONObject("posters");
                         String thumbnail = posters.getString("thumbnail");
-                        Movie movie1 = new Movie(id,titre,annee, synopsis,0, thumbnail);
+                        Movie movie1 = new Movie(id,titre,annee, synopsis, ratingScore, thumbnail);
                         movies.add(movie1);
 
                         Log.d("FILMS1","Affichage des films :"+movie1.toString());

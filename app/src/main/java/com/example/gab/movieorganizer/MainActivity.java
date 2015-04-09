@@ -44,11 +44,11 @@ public class MainActivity extends ActionBarActivity {
         //Instantiate the helper
         dbh = new DBHelper(myContext);
         //Test d'insert
-        Movie m = new Movie(0,"Harry Potter",1996,"Un magicien va à Poudlard, lécole des sorciers",93.1,"");
+        Movie m = new Movie(0,"Harry Potter",1996,"Un magicien va à Poudlard, lécole des sorciers",93,"");
         dbh.insertMovie(m,DBHelper.TABLE_SEEN);
-        m = new Movie(0,"Frozen",2014,"Histoire damour entre deux soeurs",98.4,"");
+        m = new Movie(0,"Frozen",2014,"Histoire damour entre deux soeurs",98,"");
         dbh.insertMovie(m,DBHelper.TABLE_SEEN);
-        m = new Movie(0,"James Bond",2015,"Daniel Craig is hot",83.4,"");
+        m = new Movie(0,"James Bond",2015,"Daniel Craig is hot",83,"");
         dbh.insertMovie(m,DBHelper.TABLE_WISH);
         Log.d("insert","all added");
 

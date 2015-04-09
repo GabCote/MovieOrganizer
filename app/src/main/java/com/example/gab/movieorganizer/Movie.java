@@ -6,10 +6,10 @@ package com.example.gab.movieorganizer;
 public class Movie {
     int id;
     Integer annee;
-    double rating;
+    int rating;
     String titre, synopsis, imgUrl;
 
-    public Movie(int id, String titre,Integer annee, String synopsis, double rating, String imgUrl) {
+    public Movie(int id, String titre,Integer annee, String synopsis, int rating, String imgUrl) {
         this.id = id;
         this.titre = titre;
         this.annee = annee;
@@ -70,11 +70,11 @@ public class Movie {
         this.imgUrl = imgUrl;
     }
 
-    public double getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 }

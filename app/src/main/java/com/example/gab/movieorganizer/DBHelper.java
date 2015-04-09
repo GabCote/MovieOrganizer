@@ -128,7 +128,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if (c != null)
             c.moveToFirst();
 
-        Movie m = new Movie(c.getInt(c.getColumnIndex(COL_ID)),c.getString(c.getColumnIndex(COL_TITRE)),c.getInt(c.getColumnIndex(COL_ANNEE)),c.getString(c.getColumnIndex(COL_SYNOPSIS)),c.getDouble(c.getColumnIndex(COL_RATING)),c.getString(c.getColumnIndex(COL_IMAGE)));
+        Movie m = new Movie(c.getInt(c.getColumnIndex(COL_ID)),c.getString(c.getColumnIndex(COL_TITRE)),c.getInt(c.getColumnIndex(COL_ANNEE)),c.getString(c.getColumnIndex(COL_SYNOPSIS)),c.getInt(c.getColumnIndex(COL_RATING)),c.getString(c.getColumnIndex(COL_IMAGE)));
 
         return m;
     }

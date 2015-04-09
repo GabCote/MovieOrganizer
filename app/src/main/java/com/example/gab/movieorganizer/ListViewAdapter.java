@@ -33,8 +33,9 @@ public class ListViewAdapter extends CursorAdapter {
         c.moveToPosition(position);
 
         TextView titre = (TextView)v.findViewById(android.R.id.text1);
-        titre.setText("("+c.getInt(c.getColumnIndex(DBHelper.COL_ANNEE))+") "+c.getString(c.getColumnIndex(DBHelper.COL_TITRE))+" "+c.getString(c.getColumnIndex(DBHelper.COL_SYNOPSIS))+ " "+c.getDouble(c.getColumnIndex(DBHelper.COL_RATING)) );
+        titre.setText("(" + c.getInt(c.getColumnIndex(DBHelper.COL_ANNEE)) + ") " + c.getString(c.getColumnIndex(DBHelper.COL_TITRE)) + " " + c.getInt(c.getColumnIndex(DBHelper.COL_RATING))+"%");
         titre.setTextColor(Color.BLACK);
+
         return v;
     }
 
