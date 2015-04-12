@@ -4,8 +4,6 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by Gab on 4/2/2015.

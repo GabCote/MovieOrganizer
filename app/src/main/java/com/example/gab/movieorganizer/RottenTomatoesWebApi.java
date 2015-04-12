@@ -16,6 +16,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 /**
@@ -34,6 +36,7 @@ public class RottenTomatoesWebApi {
     String url;
     String currentPage = "";
     ArrayList<Movie> movies;
+    String URLEncodedQueryStr;
 
     RottenTomatoesWebApi(String pCurrentPAge, String pQueryStr) {
         currentPage = pCurrentPAge;
@@ -155,13 +158,18 @@ public class RottenTomatoesWebApi {
     public String getApiUrl(String pCurrentPage, String pQueryStr){
         switch (pCurrentPage){
             case "Accueil": return "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey="+API_KEY+"&page_limit="+Integer.toString(page_limit)+"&country="+country;
-                //ce sera ça: http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey=dmazmwz6h6hymzv5sbyws8cw&page_limit=16&country=ca
+                //ce sera ça: http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey=xbut6w49ap4qtjh22kz2fg7q&page_limit=16&country=ca
                 //c'est l'url pour prendre les Upcoming Movies
 
                 //http://developer.rottentomatoes.com/docs/read/json/v10/Upcoming_Movies
                 //pour en savoir plus sur les Upcoming Movies avec l'API
 
-            case "Recherche":return "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey="+API_KEY+"&q="+ pQueryStr + "&page_limit=16";
+            case "Recherche":try {
+                URLEncodedQueryStr = URLEncoder.encode(pQueryStr, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+                return "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey="+API_KEY+"&q="+ URLEncodedQueryStr + "&page_limit=16";
 
             case "Autre chose blablabla": return "http........";
 
