@@ -32,14 +32,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/year"
-                android:id="@+id/yearRBSeen"
+                android:id="@+id/yearRBWish"
                 android:layout_gravity="center_horizontal"
                 android:checked="false" />
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rating"
-                android:id="@+id/ratingRBSeen"
+                android:id="@+id/ratingRBWish"
                 android:checked="false" />
         </RadioGroup>
 

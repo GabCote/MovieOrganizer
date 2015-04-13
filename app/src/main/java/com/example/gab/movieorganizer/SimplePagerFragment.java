@@ -22,7 +22,7 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
     ListView lv2, lv3, lv4;
     TextView textSeen;
     Cursor c;
-    ListViewAdapter listViewAdapter;
+    ListViewAdapter listViewAdapter, lva;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         Bundle args = getArguments();
@@ -97,7 +97,7 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                 if(cursor.getCount() != 0) {
                     textWish.setVisibility(View.GONE);
 
-                    ListViewAdapter lva = new ListViewAdapter(MainActivity.myContext, cursor);
+                    lva = new ListViewAdapter(MainActivity.myContext, cursor);
                     lv3.setAdapter(lva);
                 }
                 else{
@@ -109,22 +109,22 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
                         // checkedId is the RadioButton selected
                         switch(checkedId) {
-                            case R.id.yearRBSeen:
-                                Cursor cYS = dbh.listeSeen(DBHelper.COL_ANNEE);
-                                listViewAdapter.changeCursor(cYS);
-                                lv3.setAdapter(listViewAdapter);
+                            case R.id.yearRBWish:
+                                Cursor cYW = dbh.listeWishlist(DBHelper.COL_ANNEE);
+                                lva.changeCursor(cYW);
+                                lv3.setAdapter(lva);
                                 break;
-                            case R.id.ratingRBSeen:
+                            case R.id.ratingRBWish:
                                 //query sorting par rating
-                                Cursor cRS = dbh.listeSeen(DBHelper.COL_RATING);
-                                listViewAdapter.changeCursor(cRS);
-                                lv3.setAdapter(listViewAdapter);
+                                Cursor cRW = dbh.listeWishlist(DBHelper.COL_RATING);
+                                lva.changeCursor(cRW);
+                                lv3.setAdapter(lva);
                                 break;
-                            case R.id.alphabeticRBSeen:
+                            case R.id.alphabeticRBWish:
                                 //query sorting par title
-                                Cursor cAS = dbh.listeSeen(DBHelper.COL_TITRE);
-                                listViewAdapter.changeCursor(cAS);
-                                lv3.setAdapter(listViewAdapter);
+                                Cursor cAW = dbh.listeWishlist(DBHelper.COL_TITRE);
+                                lva.changeCursor(cAW);
+                                lv3.setAdapter(lva);
                                 break;
                         }
                     }

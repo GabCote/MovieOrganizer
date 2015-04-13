@@ -27,14 +27,18 @@ public class ListViewAdapter extends CursorAdapter {
         View v = convertView;
 
         if(v==null){
-            v = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            v = inflater.inflate(R.layout.view_list_item, parent, false);
         }
         Cursor c = getCursor();
         c.moveToPosition(position);
 
-        TextView titre = (TextView)v.findViewById(android.R.id.text1);
-        titre.setText("(" + c.getInt(c.getColumnIndex(DBHelper.COL_ANNEE)) + ") " + c.getString(c.getColumnIndex(DBHelper.COL_TITRE)) + " " + c.getInt(c.getColumnIndex(DBHelper.COL_RATING))+"%");
-        titre.setTextColor(Color.BLACK);
+        TextView titre = (TextView)v.findViewById(R.id.textTitle);
+        TextView annee = (TextView)v.findViewById(R.id.textYear);
+        TextView rating = (TextView)v.findViewById(R.id.textRating);
+
+        annee.setText("(" + c.getInt(c.getColumnIndex(DBHelper.COL_ANNEE)) + ") ");
+        titre.setText(c.getString(c.getColumnIndex(DBHelper.COL_TITRE)));
+        rating.setText(c.getInt(c.getColumnIndex(DBHelper.COL_RATING))+"%");
 
         return v;
     }
