@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 /**
  * Created by Gab on 4/2/2015.
@@ -68,6 +69,14 @@ public class DownloadFromApi extends AsyncTask<TaskParamsRottenTomatoesApi, Stri
                // Toast.makeText(MainActivity.this, "On reussi a obtenir un webapi non null et sans erreur", Toast.LENGTH_SHORT).show();
                 break;
             case "Recherche":
+                TextView nombre_res = (TextView)currentView.findViewById(R.id.nbr_res);
+                if(web.getMovies().isEmpty()){
+                    nombre_res.setText("Aucun résultat");
+                } else if(web.getMovies().size()==1){
+                    nombre_res.setText("1 résultat");
+                } else{
+                    nombre_res.setText(String.valueOf(web.getMovies().size())+" résultats");
+                }
                 ListView listViewSearch = (ListView)currentView.findViewById(R.id.listViewSearch);
                 SearchListViewAdapter searchListViewAdapter = new SearchListViewAdapter(currentView.getContext(), web.getMovies());
                 listViewSearch.setAdapter(searchListViewAdapter);
