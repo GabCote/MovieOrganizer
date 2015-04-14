@@ -3,15 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/gridView"
-        android:numColumns="3"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentStart="true" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,8 +13,17 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:autoText="false"
-        android:gravity="center"
+        android:gravity="bottom|center"
         android:layout_above="@+id/gridView"
         android:elegantTextHeight="false" />
+
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gridView"
+        android:numColumns="3"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
