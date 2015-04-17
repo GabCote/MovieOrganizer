@@ -15,4 +15,6 @@
     <string name="sort_by">Sort by:</string>
     <string name="alphabetic">Alphabetic</string>
     <string name="requete_indice">Movie, Actor, Director, ...</string>
+    <string name="title_activity_movie_information">MovieInformationActivity</string>
+
 </resources>

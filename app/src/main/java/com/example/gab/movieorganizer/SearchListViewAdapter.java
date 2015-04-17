@@ -12,7 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -34,8 +33,8 @@ public class SearchListViewAdapter  extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public Movie getItem(int position) {
+        return movies.get(position);
     }
 
     @Override

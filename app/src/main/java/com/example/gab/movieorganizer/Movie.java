@@ -1,9 +1,15 @@
 package com.example.gab.movieorganizer;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  * Created by Émile on 2015-03-24.
  */
-public class Movie {
+public class Movie implements Parcelable {
     int id;
     Integer annee;
     int rating;
@@ -76,5 +82,46 @@ public class Movie {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.titre);
+        dest.writeInt(this.annee);
+        dest.writeInt(this.rating);
+        dest.writeString(this.synopsis);
+        dest.writeString(this.imgUrl);
+
+    }
+    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+    // example constructor that takes a Parcel and gives you an object populated with it's values
+    private Movie(Parcel in) {
+        int id = in.readInt();
+        String titre = in.readString();
+        Integer annee = in.readInt();
+        int rating = in.readInt();
+        String synopsis = in.readString();
+        String imgUrl = in.readString();
+        this.id = id;
+        this.titre = titre;
+        this.annee = annee;
+        this.rating = rating;
+        this.synopsis = synopsis;
+        this.imgUrl = imgUrl;
     }
 }

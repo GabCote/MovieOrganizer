@@ -2,16 +2,21 @@ package com.example.gab.movieorganizer;
 
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Anna on 19/03/2015.
@@ -19,6 +24,7 @@ import android.widget.TextView;
 public class SimplePagerFragment extends Fragment implements View.OnClickListener{
     DBHelper dbh = new DBHelper(MainActivity.myContext);
     View rootView2;
+    GridView gridViewUpcomingMovies;
     ListView lv2, lv3, lv4;
     TextView textSeen;
     Cursor c;
@@ -28,9 +34,20 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
         Bundle args = getArguments();
         switch(args.getInt("id")+1){//ne pas commencer par zero (id +1)
             case 1:
-                View rootView1 = inflater.inflate(R.layout.home_layout, container, false);
+                final View rootView1 = inflater.inflate(R.layout.home_layout, container, false);
                 TaskParamsRottenTomatoesApi paramsDownload = new TaskParamsRottenTomatoesApi("Accueil", null);
                 new DownloadFromApi(rootView1).execute(paramsDownload);
+                gridViewUpcomingMovies = (GridView)rootView1.findViewById(R.id.gridView);
+                gridViewUpcomingMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+
+                        Movie m = (Movie) gridViewUpcomingMovies.getItemAtPosition(position);
+                        Intent intent = new Intent(rootView1.getContext(), MovieInformationActivity.class);
+                        intent.putExtra("movie", m);
+                        startActivity(intent);
+                    }
+                });
                 //TextView textViewUpcoming = (TextView) rootView1.findViewById(R.id.textViewUpcoming);
                // textViewUpcoming.setText("whats upp");
                 //GRIDVIEW
@@ -133,11 +150,20 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                 return rootView3;
             case 4:
 
-                View rootView4 = inflater.inflate(R.layout.research_layout, container, false);
+                final View rootView4 = inflater.inflate(R.layout.research_layout, container, false);
                 lv4 = (ListView)rootView4.findViewById(R.id.listViewSearch);
                 Button searchButton = (Button) rootView4.findViewById(R.id.searchButton);
                 searchButton.setOnClickListener(this);
+                lv4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
 
+                        Movie m =(Movie)lv4.getItemAtPosition(position);
+                        Intent intent = new Intent(rootView4.getContext(), MovieInformationActivity.class);
+                        intent.putExtra("movie", m);
+                        startActivity(intent);
+                    }
+                });
                 RadioGroup rg4 = (RadioGroup)rootView4.findViewById(R.id.radioGroupSearch);
                 //aller chercher le cursor contenant les films de la recherche
                 //si vide laisse blank?

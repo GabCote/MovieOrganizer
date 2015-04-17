@@ -34,7 +34,7 @@ public class GridViewAdapter  extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return movies.get(position);
     }
 
     @Override
