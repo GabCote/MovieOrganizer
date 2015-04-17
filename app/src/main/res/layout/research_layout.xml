@@ -37,7 +37,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Nombre de résultat"
+                    android:text="@string/result_initial"
                     android:id="@+id/nbr_res" />
             </LinearLayout>
 
@@ -83,10 +83,12 @@
         </LinearLayout>
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageButton"
-            android:src="@android:drawable/ic_menu_mylocation" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/randomButton"
+            android:src="@drawable/dice2"
+            android:adjustViewBounds="false"
+            android:scaleType="fitCenter" />
 
     </LinearLayout>
 

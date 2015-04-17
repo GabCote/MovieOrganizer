@@ -1,18 +1,17 @@
 package com.example.gab.movieorganizer;
 
 
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -29,6 +28,7 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
     TextView textSeen;
     Cursor c;
     ListViewAdapter listViewAdapter, lva;
+    ImageButton dice_iButton;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         Bundle args = getArguments();
@@ -167,6 +167,20 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                 RadioGroup rg4 = (RadioGroup)rootView4.findViewById(R.id.radioGroupSearch);
                 //aller chercher le cursor contenant les films de la recherche
                 //si vide laisse blank?
+                dice_iButton = (ImageButton)rootView4.findViewById(R.id.randomButton);
+                dice_iButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+                        Toast.makeText(rootView4.getContext(),"On lance les dés :D!", Toast.LENGTH_SHORT).show();
+                        /*Random rand = new Random();
+                        int position = rand.nextInt(16);
+                        Movie m =(Movie)lv4.getItemAtPosition(position);
+                        Intent intent = new Intent(rootView4.getContext(), MovieInformationActivity.class);
+                        intent.putExtra("movie", m);
+                        startActivity(intent);*/
+                    }
+                });
+
                 return rootView4;
             default: return null;
         }

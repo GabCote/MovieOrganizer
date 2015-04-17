@@ -3,9 +3,6 @@ package com.example.gab.movieorganizer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
 /**
  * Created by Émile on 2015-03-24.
  */
@@ -13,15 +10,17 @@ public class Movie implements Parcelable {
     int id;
     Integer annee;
     int rating;
-    String titre, synopsis, imgUrl;
+    String titre, synopsis, imgUrl, cast;
 
-    public Movie(int id, String titre,Integer annee, String synopsis, int rating, String imgUrl) {
+
+    public Movie(int id, String titre,Integer annee, String synopsis, int rating, String imgUrl, String cast) {
         this.id = id;
         this.titre = titre;
         this.annee = annee;
         this.synopsis = synopsis;
         this.imgUrl = imgUrl;
         this.rating = rating;
+        this.cast = cast;
 
     }
 
@@ -30,10 +29,20 @@ public class Movie implements Parcelable {
         return "Movie{" +
                 "id=" + id +
                 ", annee=" + annee +
+                ", rating=" + rating +
                 ", titre='" + titre + '\'' +
                 ", synopsis='" + synopsis + '\'' +
-                ", rating='" + rating + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", cast=" + cast +
                 '}';
+    }
+
+    public String getCast() {
+        return cast;
+    }
+
+    public void setCast(String cast) {
+        this.cast = cast;
     }
 
     public int getId() {
@@ -97,6 +106,7 @@ public class Movie implements Parcelable {
         dest.writeInt(this.rating);
         dest.writeString(this.synopsis);
         dest.writeString(this.imgUrl);
+        dest.writeString(this.cast);
 
     }
     // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
@@ -117,11 +127,13 @@ public class Movie implements Parcelable {
         int rating = in.readInt();
         String synopsis = in.readString();
         String imgUrl = in.readString();
+        String cast = in.readString();
         this.id = id;
         this.titre = titre;
         this.annee = annee;
         this.rating = rating;
         this.synopsis = synopsis;
         this.imgUrl = imgUrl;
+        this.cast = cast;
     }
 }

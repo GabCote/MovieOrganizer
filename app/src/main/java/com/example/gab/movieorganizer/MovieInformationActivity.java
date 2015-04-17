@@ -1,8 +1,8 @@
 package com.example.gab.movieorganizer;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +14,7 @@ public class MovieInformationActivity extends ActionBarActivity {
     Movie currentMovie;
     TextView movieTitleTextView;
     TextView movieSynopsisTextView;
+    TextView movieCastTextView;
     ImageView movieImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +23,16 @@ public class MovieInformationActivity extends ActionBarActivity {
         Movie currentMovie =(Movie) getIntent().getParcelableExtra("movie");
         movieTitleTextView = (TextView) findViewById(R.id.movieTitleTextView);
         movieImageView = (ImageView) findViewById(R.id.movieImageView);
+        movieImageView.setScaleType(ImageView.ScaleType.FIT_START);
         movieSynopsisTextView = (TextView) findViewById(R.id.movieSynopsisTextView);
+        movieCastTextView = (TextView) findViewById(R.id.castTextView);
         Picasso.with(this).load(currentMovie.getImgUrl()).into(movieImageView);
 
-        movieTitleTextView.setText(currentMovie.getTitre() + "(" + currentMovie.getAnnee() + ")");
+        Log.d("MovieInformationActivity", "Affichage des films :" + currentMovie.toString());
+        movieTitleTextView.setText(currentMovie.getTitre() + " (" + currentMovie.getAnnee() + ")");
         movieSynopsisTextView.setText(currentMovie.getSynopsis());
+        if(currentMovie.getCast() != null){
+        movieCastTextView.setText("Cast: " + currentMovie.getCast());}
     }
 
     @Override

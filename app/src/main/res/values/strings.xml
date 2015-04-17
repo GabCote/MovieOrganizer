@@ -7,14 +7,19 @@
     <string name="home">Home</string>
     <string name="seen">Seen</string>
     <string name="wishList">WishList</string>
+    <string name="wishList_espace">Wish List</string>
     <string name="search">Search</string>
     <string name="fatal_error">Fatal Error!!</string>
+    <string name="error">Error</string>
     <string name="upcoming_movies">Upcoming Movies</string>
     <string name="rating">Rating</string>
     <string name="year">Year</string>
     <string name="sort_by">Sort by:</string>
     <string name="alphabetic">Alphabetic</string>
     <string name="requete_indice">Movie, Actor, Director, ...</string>
-    <string name="title_activity_movie_information">MovieInformationActivity</string>
+    <string name="title_activity_movie_information">Informations</string>
+    <string name="movie_info">Movie Info</string>
+    <string name="reviews">Reviews</string>
+    <string name="result_initial">Number of results</string>
 
 </resources>

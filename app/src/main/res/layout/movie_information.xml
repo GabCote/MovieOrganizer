@@ -24,36 +24,41 @@
                 android:id="@+id/movieTitleTextView"
                 android:layout_gravity="left|center_vertical" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right">
+
             <RatingBar
                 android:id="@+id/ratingBar_movie_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="5"
-                android:stepSize="1.0"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="top|right" />
-        </LinearLayout>
+                android:stepSize="1.0" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="162dp"
-            android:layout_height="fill_parent"
-            android:layout_gravity="right">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Wishlist"
-                android:id="@+id/wishlist_movie_info"
-                android:checked="false"
-                android:layout_gravity="right" />
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wishList_espace"
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Seen"
-                android:id="@+id/seen_movie_info"
-                android:checked="false" />
+                    android:id="@+id/wishlist_movie_info"
+                    android:checked="false" />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/seen"
+                    android:id="@+id/seen_movie_info"
+                    android:checked="false" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -70,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Movie Info"
+            android:text="@string/movie_info"
             android:id="@+id/movieInfoTextView"
             android:gravity="center" />
 
@@ -80,18 +85,29 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:id="@+id/imageAndSynopsisLayout">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/movieImageView"
-                android:adjustViewBounds="false" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/movieSynopsisTextView" />
+                android:id="@+id/movieSynopsisTextView"
+                android:text="TextView" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:id="@+id/movieImageView"
+                android:adjustViewBounds="false"
+                android:layout_gravity="right" />
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/castTextView" />
 
     </LinearLayout>
 
@@ -106,7 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Reviews"
+            android:text="@string/reviews"
             android:id="@+id/textView3"
             android:gravity="center" />
     </LinearLayout>

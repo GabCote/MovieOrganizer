@@ -71,11 +71,11 @@ public class DownloadFromApi extends AsyncTask<TaskParamsRottenTomatoesApi, Stri
             case "Recherche":
                 TextView nombre_res = (TextView)currentView.findViewById(R.id.nbr_res);
                 if(web.getMovies().isEmpty()){
-                    nombre_res.setText("Aucun résultat");
+                    nombre_res.setText("No result");
                 } else if(web.getMovies().size()==1){
-                    nombre_res.setText("1 résultat");
+                    nombre_res.setText("1 result");
                 } else{
-                    nombre_res.setText(String.valueOf(web.getMovies().size())+" résultats");
+                    nombre_res.setText(String.valueOf(web.getMovies().size())+" results");
                 }
                 ListView listViewSearch = (ListView)currentView.findViewById(R.id.listViewSearch);
                 SearchListViewAdapter searchListViewAdapter = new SearchListViewAdapter(currentView.getContext(), web.getMovies());

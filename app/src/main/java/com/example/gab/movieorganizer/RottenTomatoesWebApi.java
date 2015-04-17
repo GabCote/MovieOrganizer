@@ -35,6 +35,7 @@ public class RottenTomatoesWebApi {
     String country = "ca";
     String url;
     String currentPage = "";
+    String cast;
     ArrayList<Movie> movies;
     String URLEncodedQueryStr;
 
@@ -70,10 +71,24 @@ public class RottenTomatoesWebApi {
 
                         JSONObject posters = movie.getJSONObject("posters");
                         String thumbnail = posters.getString("thumbnail");
-                        Movie movie1 = new Movie(id,titre,annee, synopsis, 0, thumbnail);
+                        //abridged_cast
+                        JSONArray castArr = movie.getJSONArray("abridged_cast");
+                        cast = "";
+                        for(int j=0; j<castArr.length();j++){
+                            JSONObject temp = castArr.getJSONObject(j);
+                            cast = cast + ", " + temp.getString("name");
+                        }
+                        if(!cast.contentEquals("")){
+                            cast = cast.substring(1);
+                        }
+
+                        Movie movie1 = new Movie(id,titre,annee, synopsis, 0, thumbnail, cast);
+                        Log.d("Test","Affichage de castList :"+cast);
+                        Log.d("Test2","Affichage des films :"+movie1.toString());
+                        cast="";
                         movies.add(movie1);
 
-                        Log.d("FILMS1","Affichage des films :"+movie1.toString());
+                        //Log.d("FILMS1","Affichage des films :"+movie1.toString());
                     }
                     break;
                 case "Recherche":
@@ -111,18 +126,25 @@ public class RottenTomatoesWebApi {
 
                         JSONObject posters = movie.getJSONObject("posters");
                         String thumbnail = posters.getString("thumbnail");
-                        Movie movie1 = new Movie(id,titre,annee, synopsis, ratingScore, thumbnail);
+                        JSONArray castArr = movie.getJSONArray("abridged_cast");
+                        cast="";
+                        for(int j=0; j<castArr.length();j++){
+                            JSONObject temp = castArr.getJSONObject(j);
+                            cast = cast + ", " + temp.getString("name");
+                        }
+                        if(!cast.contentEquals("")){
+                            cast = cast.substring(1);
+                        }
+                        Movie movie1 = new Movie(id,titre,annee, synopsis, ratingScore, thumbnail, cast);
                         movies.add(movie1);
+                        cast="";
 
-                        Log.d("FILMS1","Affichage des films :"+movie1.toString());
+                        Log.d("FILMS2","Affichage des films :"+movie1.toString());
                     }
                     break;
 
 
             }
-
-
-            Log.d("TOTAL1","Affichage du total1:"+Integer.toString(total));
 
             //continuer a prendre l'information du fichier jason
             //entre autre, mettre tous les films dans un tableau de film
@@ -136,7 +158,6 @@ public class RottenTomatoesWebApi {
         } catch (JSONException e) {
             erreur = "Erreur JSON :"+e.getMessage();
         }
-        Log.d("TOTAL2","Affichage du total2:"+Integer.toString(total));
         Log.d("Err", "Affichage de l'erreur:"+erreur);
     }
 

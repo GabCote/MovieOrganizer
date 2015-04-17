@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Created by Anna on 27/03/2015.
@@ -128,7 +127,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if (c != null)
             c.moveToFirst();
 
-        Movie m = new Movie(c.getInt(c.getColumnIndex(COL_ID)),c.getString(c.getColumnIndex(COL_TITRE)),c.getInt(c.getColumnIndex(COL_ANNEE)),c.getString(c.getColumnIndex(COL_SYNOPSIS)),c.getInt(c.getColumnIndex(COL_RATING)),c.getString(c.getColumnIndex(COL_IMAGE)));
+        Movie m = new Movie(c.getInt(c.getColumnIndex(COL_ID)),c.getString(c.getColumnIndex(COL_TITRE)),c.getInt(c.getColumnIndex(COL_ANNEE)),c.getString(c.getColumnIndex(COL_SYNOPSIS)),c.getInt(c.getColumnIndex(COL_RATING)),c.getString(c.getColumnIndex(COL_IMAGE)), null);
 
         return m;
     }
