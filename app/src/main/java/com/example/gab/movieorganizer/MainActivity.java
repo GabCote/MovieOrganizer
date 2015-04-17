@@ -1,6 +1,9 @@
 package com.example.gab.movieorganizer;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,8 +13,20 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.CursorAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -26,19 +41,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
         myContext = getApplicationContext();
-        //Instantiate the helper
-        dbh = new DBHelper(myContext);
-        //Test d'insert
-        Movie m = new Movie(0,"Harry Potter",1996,"Un magicien va à Poudlard, lécole des sorciers",93,"",null);
-        dbh.insertMovie(m,DBHelper.TABLE_SEEN);
-        m = new Movie(0,"Frozen",2014,"Histoire damour entre deux soeurs",98,"",null);
-        dbh.insertMovie(m,DBHelper.TABLE_SEEN);
-        m = new Movie(0,"James Bond",2015,"Daniel Craig is hot",83,"",null);
-        dbh.insertMovie(m,DBHelper.TABLE_WISH);
-        Log.d("insert","all added");
-
-        dbh.closeDB();
-
+        
         //View pager
         pager=(ViewPager)findViewById(R.id.pager);
         adapter= new SimplePagerAdapter(getSupportFragmentManager()); //support provient du import android.support sinon aucun support

@@ -1,10 +1,12 @@
 package com.example.gab.movieorganizer;
 
 
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +24,6 @@ import android.widget.Toast;
  */
 public class SimplePagerFragment extends Fragment implements View.OnClickListener{
     DBHelper dbh = new DBHelper(MainActivity.myContext);
-    View rootView2;
     GridView gridViewUpcomingMovies;
     ListView lv2, lv3, lv4;
     TextView textSeen;
@@ -55,9 +56,19 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                // gridview.setAdapter(new GridViewAdapter(getActivity(), ));
                 return rootView1;
             case 2:
-                rootView2 = inflater.inflate(R.layout.seen_layout, container, false);
+                final View rootView2 = inflater.inflate(R.layout.seen_layout, container, false);
                 lv2= (ListView)rootView2.findViewById(R.id.listViewSeen);
+                lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
 
+                        Movie m =(Movie)lv2.getItemAtPosition(position);
+                        Intent intent = new Intent(rootView2.getContext(), MovieInformationActivity.class);
+                        intent.putExtra("movie", m);
+                        startActivity(intent);
+
+                    }
+                });
                 textSeen = (TextView)rootView2.findViewById(R.id.textSeen);
                 textSeen.setText("You can add movies to your list by checking the 'Seen' box on the movie description page.");
 
@@ -103,9 +114,20 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                 return rootView2;
             case 3:
 
-                View rootView3 = inflater.inflate(R.layout.wishlist_layout, container, false);
-                lv3 = (ListView)rootView3.findViewById(R.id.listViewWish);
+                final View rootView3 = inflater.inflate(R.layout.wishlist_layout, container, false);
 
+                lv3 = (ListView)rootView3.findViewById(R.id.listViewWish);
+                lv3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+
+                        Movie m =(Movie)lv3.getItemAtPosition(position);
+                        Intent intent = new Intent(rootView3.getContext(), MovieInformationActivity.class);
+                        intent.putExtra("movie", m);
+                        startActivity(intent);
+                        Log.d("check","after statActivity");
+                    }
+                });
                 TextView textWish= (TextView)rootView3.findViewById(R.id.textWish);
                 textWish.setText("You can add movies to your list by checking the 'Wishlist' box on the movie description page.");
                 RadioGroup rg2 = (RadioGroup)rootView3.findViewById(R.id.radioGroupWish);

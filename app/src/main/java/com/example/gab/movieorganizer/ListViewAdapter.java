@@ -22,13 +22,32 @@ public class ListViewAdapter extends CursorAdapter {
 
     }
 
+
+    @Override
+    public int getCount() {
+        return getCursor().getCount();
+    }
+
+    @Override
+    public Movie getItem(int position) {
+        Movie m = new Movie(getCursor().getInt(getCursor().getColumnIndex(DBHelper.COL_ID)),getCursor().getString(getCursor().getColumnIndex(DBHelper.COL_TITRE)),getCursor().getInt(getCursor().getColumnIndex(DBHelper.COL_ANNEE)),getCursor().getString(getCursor().getColumnIndex(DBHelper.COL_SYNOPSIS)),getCursor().getInt(getCursor().getColumnIndex(DBHelper.COL_RATING)),getCursor().getString(getCursor().getColumnIndex(DBHelper.COL_IMAGE)),getCursor().getString(getCursor().getColumnIndex(DBHelper.COL_CAST)));
+        return m;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
 
+
         if(v==null){
             v = inflater.inflate(R.layout.view_list_item, parent, false);
         }
+
         Cursor c = getCursor();
         c.moveToPosition(position);
 

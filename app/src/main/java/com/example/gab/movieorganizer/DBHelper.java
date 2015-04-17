@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by Anna on 27/03/2015.
@@ -26,6 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
     static final String COL_SYNOPSIS = "synopsis";
     static final String COL_IMAGE = "image";
     static final String COL_RATING = "rating";
+    static final String COL_CAST ="cast";
 
     //Create table
     String CREATE_SEEN = "create table "+TABLE_SEEN
@@ -34,7 +36,8 @@ public class DBHelper extends SQLiteOpenHelper {
             + COL_ANNEE+" integer, "
             + COL_SYNOPSIS+" text,"
             + COL_RATING+" text,"
-            + COL_IMAGE+" text)";
+            + COL_IMAGE+" text,"
+            + COL_CAST+" text)";
 
     String CREATE_WISH = "create table "+TABLE_WISH
             +" ("+COL_ID+" integer primary key autoincrement, "
@@ -42,7 +45,8 @@ public class DBHelper extends SQLiteOpenHelper {
             + COL_ANNEE+" integer, "
             + COL_SYNOPSIS+" text,"
             + COL_RATING+" double,"
-            + COL_IMAGE+" text)";
+            + COL_IMAGE+" text,"
+            + COL_CAST+" text)";
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_Version);
@@ -94,43 +98,54 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void insertMovie(Movie movie, String table_name) {
         SQLiteDatabase db = this.getWritableDatabase();
+        //verifier si le film est deja inserer
+        String[] columns ={COL_TITRE,COL_ANNEE,COL_IMAGE};
+        Cursor findEntry = db.query(table_name,columns,COL_TITRE+"=? and "+COL_ANNEE+"=? and "+COL_IMAGE+"=?",new String[] { movie.getTitre(),movie.getAnnee()+"",movie.getImgUrl()},null,null,null);
+        if(findEntry.getCount() <= 0) {
+            String syp =movie.getSynopsis();
+            String syp_rep =syp.replace("'","''");
 
-        try {
-        db.execSQL("INSERT INTO " +
-                table_name +"("+COL_TITRE+","+COL_ANNEE+","+COL_SYNOPSIS+","+COL_RATING+","+COL_IMAGE+")"+
-                " Values ('"+ movie.getTitre() + "','" +movie.getAnnee() + "','" +movie.getSynopsis()+ "','" +movie.getRating() +"','" + movie.getImgUrl()+ "');");
+            try {
+                db.execSQL("INSERT INTO " +
+                        table_name + "(" + COL_TITRE + "," + COL_ANNEE + "," + COL_SYNOPSIS + "," + COL_RATING + "," + COL_IMAGE + ","+COL_CAST+ ")" +
+                        " Values ('" + movie.getTitre() + "','" + movie.getAnnee() + "','" + syp_rep + "','" + movie.getRating() + "','" + movie.getImgUrl() + "','"+ movie.getCast()+"');");
+                Toast.makeText(MainActivity.myContext, "INSERT done", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
 
-        }catch (Exception e){
-
-            e.printStackTrace();
+                e.printStackTrace();
+            }
         }
+        else
+            Toast.makeText(MainActivity.myContext, "DEJA INSERER", Toast.LENGTH_SHORT).show();
 
     }
 
     /*Methode pour supprimer un film dans liste SEEN ou WISH*/
-    public void deleteMovieSeen(long movieID,String table_name) {
+    public void deleteMovie(Movie movie,String table_name) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(table_name, COL_ID + " = ?",
-                new String[] { String.valueOf(movieID) });
+        boolean exist = isMovieExist(table_name,movie);
+        if(exist) {
+            db.delete(table_name,COL_TITRE+"=? and "+COL_ANNEE+"=? and "+COL_IMAGE+"=?",new String[] { movie.getTitre(),movie.getAnnee()+"",movie.getImgUrl()});
+        }
+        else
+            Toast.makeText(MainActivity.myContext, "MOVIE existe pas!", Toast.LENGTH_SHORT).show();
+     }
+
+    /*Check if movie exist in table*/
+    public boolean isMovieExist(String table_name, Movie movie){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String[] columns ={COL_ID,COL_TITRE,COL_ANNEE,COL_IMAGE};
+        Cursor findEntry = db.query(table_name,columns,COL_TITRE+"=? and "+COL_ANNEE+"=? and "+COL_IMAGE+"=?",new String[] { movie.getTitre(),movie.getAnnee()+"",movie.getImgUrl()},null,null,null);
+        if(findEntry.getCount() >0)
+            return true;
+        else
+            return false;
     }
 
     /* --------------- MOVIE SEEN MÉTHODES ---------------------------- */
 
-    /*Methode pour chercher un film dans les SEEN */
-    public Movie getMovieSeen(long movieID){
-        SQLiteDatabase db = this.getReadableDatabase();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_SEEN + " WHERE "
-                + COL_ID + " = " + movieID;
-
-        Cursor c = db.rawQuery(selectQuery, null);
-        if (c != null)
-            c.moveToFirst();
-
-        Movie m = new Movie(c.getInt(c.getColumnIndex(COL_ID)),c.getString(c.getColumnIndex(COL_TITRE)),c.getInt(c.getColumnIndex(COL_ANNEE)),c.getString(c.getColumnIndex(COL_SYNOPSIS)),c.getInt(c.getColumnIndex(COL_RATING)),c.getString(c.getColumnIndex(COL_IMAGE)), null);
-
-        return m;
-    }
 
     /*Methode pour avoir la liste de tous les films SEEN*/
     public Cursor listeSeen(String sort){
@@ -155,6 +170,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(COL_SYNOPSIS, movie.getSynopsis());
         values.put(COL_RATING, movie.getRating());
         values.put(COL_IMAGE, movie.getImgUrl());
+        values.put(COL_CAST, movie.getCast());
 
         // updating row
         return db.update(TABLE_SEEN, values, COL_ID + " = ?",
