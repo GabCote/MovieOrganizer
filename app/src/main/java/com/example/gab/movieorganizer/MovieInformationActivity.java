@@ -42,8 +42,7 @@ public class MovieInformationActivity extends ActionBarActivity {
         movieTitleTextView.setText(currentMovie.getTitre() + " (" + currentMovie.getAnnee() + ")");
         movieSynopsisTextView.setText(currentMovie.getSynopsis());
         if(currentMovie.getCast() != null){
-        movieCastTextView.setText("Cast: " + currentMovie.getCast());}
-
+            movieCastTextView.setText("Cast: " + currentMovie.getCast());}
         dbh= new DBHelper(MainActivity.myContext);
         seen = (CheckBox) findViewById(R.id.seen_movie_info);
 
@@ -86,6 +85,10 @@ public class MovieInformationActivity extends ActionBarActivity {
                 }
             }
         });
+
+        View currentView = (View)findViewById(android.R.id.content);
+        TaskParamsRottenTomatoesApi downloadParams = new TaskParamsRottenTomatoesApi("Reviews", currentMovie.getReviewLink());
+        new DownloadFromApi(currentView).execute(downloadParams);
     }
 
     @Override

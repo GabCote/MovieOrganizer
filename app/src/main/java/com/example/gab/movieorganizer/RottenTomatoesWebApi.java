@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Émile on 2015-03-24.
@@ -37,6 +39,7 @@ public class RottenTomatoesWebApi {
     String currentPage = "";
     String cast;
     ArrayList<Movie> movies;
+    ArrayList<CriticReview> criticReviews;
     String URLEncodedQueryStr;
 
     RottenTomatoesWebApi(String pCurrentPAge, String pQueryStr) {
@@ -56,24 +59,42 @@ public class RottenTomatoesWebApi {
             //peu importe la page, on verra.
             switch(pCurrentPAge){
                 case "Accueil":
-
                     // Le format de ce JSON stocke les informations actuelles dans un sous-objet "movies"
                     moviesjson = js.getJSONArray("movies");
+
                     total = moviesjson.length();
                     movies = new ArrayList<Movie>();
 
                     for(int i=0; i<total; i++){
+                        Log.d("json", moviesjson.getJSONObject(i)+"");
+                        Integer annee;
+                        int ratingScore;
+                        String rating;
                         JSONObject movie = moviesjson.getJSONObject(i);
                         int id = movie.getInt("id");
                         String titre = movie.getString("title");
-                        Integer annee = movie.getInt("year");
+
+                        String anneeStr = movie.getString("year");
+                        if (Utilities.isStringInt(anneeStr)){
+                            annee = movie.getInt("year");
+                        } else{
+                            annee = null;
+                        }
                         String synopsis = movie.getString("synopsis");
+
+                        JSONObject rate = movie.getJSONObject("ratings");
+                        Log.d("rate",rate+"");
+                        String ratingStr = rate.getString("audience_score");
+                        if (Utilities.isStringInt(ratingStr)){
+                            ratingScore = rate.getInt("audience_score");
+                        } else{
+                            ratingScore = 0;
+                        }
 
                         JSONObject posters = movie.getJSONObject("posters");
                         String thumbnail = posters.getString("thumbnail");
-                        //abridged_cast
                         JSONArray castArr = movie.getJSONArray("abridged_cast");
-                        cast = "";
+                        cast="";
                         for(int j=0; j<castArr.length();j++){
                             JSONObject temp = castArr.getJSONObject(j);
                             cast = cast + ", " + temp.getString("name");
@@ -81,14 +102,15 @@ public class RottenTomatoesWebApi {
                         if(!cast.contentEquals("")){
                             cast = cast.substring(1);
                         }
-
-                        Movie movie1 = new Movie(id,titre,annee, synopsis, 0, thumbnail, cast);
-                        Log.d("Test","Affichage de castList :"+cast);
-                        Log.d("Test2","Affichage des films :"+movie1.toString());
-                        cast="";
+                        JSONObject links = movie.getJSONObject("links");
+                        String reviewLink = null;
+                        if(!links.getString("reviews").isEmpty())
+                            reviewLink = links.getString("reviews") + "?apikey=" + API_KEY;
+                        Movie movie1 = new Movie(id,titre,annee, synopsis, ratingScore, thumbnail, cast, reviewLink);
                         movies.add(movie1);
+                        cast="";
 
-                        //Log.d("FILMS1","Affichage des films :"+movie1.toString());
+                        Log.d("FILMS2","Affichage des films :"+movie1.toString());
                     }
                     break;
                 case "Recherche":
@@ -135,15 +157,38 @@ public class RottenTomatoesWebApi {
                         if(!cast.contentEquals("")){
                             cast = cast.substring(1);
                         }
-                        Movie movie1 = new Movie(id,titre,annee, synopsis, ratingScore, thumbnail, cast);
+                        JSONObject links = movie.getJSONObject("links");
+                        String reviewLink = null;
+                        if(!links.getString("reviews").isEmpty())
+                            reviewLink = links.getString("reviews") + "?apikey=" + API_KEY;
+                        Movie movie1 = new Movie(id,titre,annee, synopsis, ratingScore, thumbnail, cast, reviewLink);
                         movies.add(movie1);
                         cast="";
 
                         Log.d("FILMS2","Affichage des films :"+movie1.toString());
                     }
                     break;
-
-
+                case "Reviews":
+                    JSONArray reviewsjson = js.getJSONArray("reviews");
+                    criticReviews = new ArrayList<CriticReview>();
+                            HttpEntity pageReviews = getHttp(url);
+                            for(int i=0; i<reviewsjson.length(); i++){
+                                JSONObject review = reviewsjson.getJSONObject(i);
+                                String critic = review.getString("critic");
+                                Date reviewDate = Calendar.getInstance().getTime();
+                                String score = null;
+                                try {
+                                    score = review.getString("original_score");
+                                }catch(JSONException e){
+                                    score = null;
+                                }
+                                String quote = review.getString("quote");
+                                JSONObject linksReviews = review.getJSONObject("links");
+                                String reviewLink = linksReviews.getString("review");
+                                CriticReview criticReview = new CriticReview(critic, reviewDate, score, quote, reviewLink);
+                                criticReviews.add(criticReview);
+                            }
+                    break;
             }
 
             //continuer a prendre l'information du fichier jason
@@ -192,7 +237,7 @@ public class RottenTomatoesWebApi {
             }
                 return "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey="+API_KEY+"&q="+ URLEncodedQueryStr + "&page_limit=16";
 
-            case "Autre chose blablabla": return "http........";
+            case "Reviews": return pQueryStr;
 
             default: return null;
 
@@ -209,15 +254,9 @@ public class RottenTomatoesWebApi {
     public ArrayList<Movie> getMovies(){
         return movies;
     }
-    /*
-     * Méthode utilitaire qui permet
-     * d'obtenir une image depuis une URL.
-     *
 
-    private Drawable loadHttpImage(String url) throws ClientProtocolException, IOException {
-        InputStream is = getHttp(url).getContent();
-        Drawable d = Drawable.createFromStream(is, "src");
-        return d;
-    }*/
+    public ArrayList<CriticReview> getCriticReviews() {
+        return criticReviews;
+    }
 
 }

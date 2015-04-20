@@ -10,10 +10,14 @@ public class Movie implements Parcelable {
     int id;
     Integer annee;
     int rating;
-    String titre, synopsis, imgUrl, cast;
+    String titre;
+    String synopsis;
+    String imgUrl;
+    String cast;
+    String reviewLink;
 
 
-    public Movie(int id, String titre,Integer annee, String synopsis, int rating, String imgUrl, String cast) {
+    public Movie(int id, String titre,Integer annee, String synopsis, int rating, String imgUrl, String cast, String reviewLink) {
         this.id = id;
         this.titre = titre;
         this.annee = annee;
@@ -21,6 +25,7 @@ public class Movie implements Parcelable {
         this.imgUrl = imgUrl;
         this.rating = rating;
         this.cast = cast;
+        this.reviewLink = reviewLink;
 
     }
 
@@ -34,9 +39,15 @@ public class Movie implements Parcelable {
                 ", synopsis='" + synopsis + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", cast=" + cast +
+                ", reviewLink=" + reviewLink +
                 '}';
     }
-
+    public String getReviewLink() {
+        return reviewLink;
+    }
+    public void setReviewLink(String reviewLink) {
+        this.reviewLink = reviewLink;
+    }
     public String getCast() {
         return cast;
     }
@@ -107,6 +118,7 @@ public class Movie implements Parcelable {
         dest.writeString(this.synopsis);
         dest.writeString(this.imgUrl);
         dest.writeString(this.cast);
+        dest.writeString(this.reviewLink);
 
     }
     // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
@@ -128,6 +140,7 @@ public class Movie implements Parcelable {
         String synopsis = in.readString();
         String imgUrl = in.readString();
         String cast = in.readString();
+        String reviewLink = in.readString();
         this.id = id;
         this.titre = titre;
         this.annee = annee;
@@ -135,5 +148,6 @@ public class Movie implements Parcelable {
         this.synopsis = synopsis;
         this.imgUrl = imgUrl;
         this.cast = cast;
+        this.reviewLink = reviewLink;
     }
 }

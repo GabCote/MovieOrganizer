@@ -28,6 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
     static final String COL_IMAGE = "image";
     static final String COL_RATING = "rating";
     static final String COL_CAST ="cast";
+    static final String COL_REVIEW_LINK ="reviewLink";
 
     //Create table
     String CREATE_SEEN = "create table "+TABLE_SEEN
@@ -37,7 +38,8 @@ public class DBHelper extends SQLiteOpenHelper {
             + COL_SYNOPSIS+" text,"
             + COL_RATING+" text,"
             + COL_IMAGE+" text,"
-            + COL_CAST+" text)";
+            + COL_CAST+" text,"
+            + COL_REVIEW_LINK +" text)";
 
     String CREATE_WISH = "create table "+TABLE_WISH
             +" ("+COL_ID+" integer primary key autoincrement, "
@@ -46,7 +48,8 @@ public class DBHelper extends SQLiteOpenHelper {
             + COL_SYNOPSIS+" text,"
             + COL_RATING+" double,"
             + COL_IMAGE+" text,"
-            + COL_CAST+" text)";
+            + COL_CAST+" text,"
+            + COL_REVIEW_LINK +" text)";
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_Version);
@@ -171,6 +174,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(COL_RATING, movie.getRating());
         values.put(COL_IMAGE, movie.getImgUrl());
         values.put(COL_CAST, movie.getCast());
+        values.put(COL_REVIEW_LINK, movie.getReviewLink());
 
         // updating row
         return db.update(TABLE_SEEN, values, COL_ID + " = ?",
