@@ -92,20 +92,26 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                         switch(checkedId) {
                             case R.id.yearRBSeen:
                                     Cursor cYS = dbh.listeSeen(DBHelper.COL_ANNEE);
+                                if(cYS.getCount() != 0) {
                                     listViewAdapter.changeCursor(cYS);
                                     lv2.setAdapter(listViewAdapter);
+                                }
                                     break;
                             case R.id.ratingRBSeen:
                                    //query sorting par rating
                                     Cursor cRS = dbh.listeSeen(DBHelper.COL_RATING);
-                                    listViewAdapter.changeCursor(cRS);
-                                    lv2.setAdapter(listViewAdapter);
+                                    if(cRS.getCount() != 0) {
+                                        listViewAdapter.changeCursor(cRS);
+                                        lv2.setAdapter(listViewAdapter);
+                                    }
                                     break;
                             case R.id.alphabeticRBSeen:
                                     //query sorting par title
                                     Cursor cAS = dbh.listeSeen(DBHelper.COL_TITRE);
-                                    listViewAdapter.changeCursor(cAS);
-                                    lv2.setAdapter(listViewAdapter);
+                                    if(cAS.getCount() != 0) {
+                                        listViewAdapter.changeCursor(cAS);
+                                        lv2.setAdapter(listViewAdapter);
+                                    }
                                     break;
                         }
                     }
@@ -125,7 +131,6 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                         Intent intent = new Intent(rootView3.getContext(), MovieInformationActivity.class);
                         intent.putExtra("movie", m);
                         startActivity(intent);
-                        Log.d("check","after statActivity");
                     }
                 });
                 TextView textWish= (TextView)rootView3.findViewById(R.id.textWish);
@@ -150,20 +155,26 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                         switch(checkedId) {
                             case R.id.yearRBWish:
                                 Cursor cYW = dbh.listeWishlist(DBHelper.COL_ANNEE);
-                                lva.changeCursor(cYW);
-                                lv3.setAdapter(lva);
+                                if(cYW.getCount() != 0){
+                                    lva.changeCursor(cYW);
+                                    lv3.setAdapter(lva);
+                                }
                                 break;
                             case R.id.ratingRBWish:
                                 //query sorting par rating
                                 Cursor cRW = dbh.listeWishlist(DBHelper.COL_RATING);
-                                lva.changeCursor(cRW);
-                                lv3.setAdapter(lva);
+                                if(cRW.getCount() != 0) {
+                                    lva.changeCursor(cRW);
+                                    lv3.setAdapter(lva);
+                                }
                                 break;
                             case R.id.alphabeticRBWish:
                                 //query sorting par title
                                 Cursor cAW = dbh.listeWishlist(DBHelper.COL_TITRE);
-                                lva.changeCursor(cAW);
-                                lv3.setAdapter(lva);
+                                if(cAW.getCount() != 0) {
+                                    lva.changeCursor(cAW);
+                                    lv3.setAdapter(lva);
+                                }
                                 break;
                         }
                     }

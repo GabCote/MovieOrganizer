@@ -107,11 +107,12 @@ public class DBHelper extends SQLiteOpenHelper {
         if(findEntry.getCount() <= 0) {
             String syp =movie.getSynopsis();
             String syp_rep =syp.replace("'","''");
-
+            String cast = movie.getCast();
+            String cast_rep = cast.replace("'","''");
             try {
                 db.execSQL("INSERT INTO " +
-                        table_name + "(" + COL_TITRE + "," + COL_ANNEE + "," + COL_SYNOPSIS + "," + COL_RATING + "," + COL_IMAGE + ","+COL_CAST+ ")" +
-                        " Values ('" + movie.getTitre() + "','" + movie.getAnnee() + "','" + syp_rep + "','" + movie.getRating() + "','" + movie.getImgUrl() + "','"+ movie.getCast()+"');");
+                        table_name + "(" + COL_TITRE + "," + COL_ANNEE + "," + COL_SYNOPSIS + "," + COL_RATING + "," + COL_IMAGE + ","+COL_CAST+ ","+COL_REVIEW_LINK+ ")" +
+                        " Values ('" + movie.getTitre() + "','" + movie.getAnnee() + "','" + syp_rep + "','" + movie.getRating() + "','" + movie.getImgUrl() + "','"+ cast_rep+ "','"+ movie.getReviewLink() +"');");
                 Toast.makeText(MainActivity.myContext, "INSERT done", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
 
