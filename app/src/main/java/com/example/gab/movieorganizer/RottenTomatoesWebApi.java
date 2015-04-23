@@ -106,7 +106,7 @@ public class RottenTomatoesWebApi {
                         String reviewLink = null;
                         if(!links.getString("reviews").isEmpty())
                             reviewLink = links.getString("reviews") + "?apikey=" + API_KEY;
-                        Movie movie1 = new Movie(id,titre,annee, synopsis, ratingScore, thumbnail, cast, reviewLink);
+                        Movie movie1 = new Movie(id,titre,annee, synopsis, ratingScore,0.0f, thumbnail, cast, reviewLink);
                         movies.add(movie1);
                         cast="";
 
@@ -161,7 +161,7 @@ public class RottenTomatoesWebApi {
                         String reviewLink = null;
                         if(!links.getString("reviews").isEmpty())
                             reviewLink = links.getString("reviews") + "?apikey=" + API_KEY;
-                        Movie movie1 = new Movie(id,titre,annee, synopsis, ratingScore, thumbnail, cast, reviewLink);
+                        Movie movie1 = new Movie(id,titre,annee, synopsis, ratingScore,0.0f, thumbnail, cast, reviewLink);
                         movies.add(movie1);
                         cast="";
 

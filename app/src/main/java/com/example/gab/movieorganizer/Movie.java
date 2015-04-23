@@ -10,6 +10,7 @@ public class Movie implements Parcelable {
     int id;
     Integer annee;
     int rating;
+    float myRating;
     String titre;
     String synopsis;
     String imgUrl;
@@ -17,13 +18,14 @@ public class Movie implements Parcelable {
     String reviewLink;
 
 
-    public Movie(int id, String titre,Integer annee, String synopsis, int rating, String imgUrl, String cast, String reviewLink) {
+    public Movie(int id, String titre,Integer annee, String synopsis, int rating,float myRating, String imgUrl, String cast, String reviewLink) {
         this.id = id;
         this.titre = titre;
         this.annee = annee;
         this.synopsis = synopsis;
         this.imgUrl = imgUrl;
         this.rating = rating;
+        this.myRating = myRating;
         this.cast = cast;
         this.reviewLink = reviewLink;
 
@@ -35,6 +37,7 @@ public class Movie implements Parcelable {
                 "id=" + id +
                 ", annee=" + annee +
                 ", rating=" + rating +
+                ", myRating=" + myRating +
                 ", titre='" + titre + '\'' +
                 ", synopsis='" + synopsis + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +
@@ -42,6 +45,8 @@ public class Movie implements Parcelable {
                 ", reviewLink=" + reviewLink +
                 '}';
     }
+    public float getMyRating(){return myRating;}
+    public void setMyRating(float rate){this.myRating=rate;}
     public String getReviewLink() {
         return reviewLink;
     }
@@ -115,6 +120,7 @@ public class Movie implements Parcelable {
         dest.writeString(this.titre);
         dest.writeInt(this.annee);
         dest.writeInt(this.rating);
+        dest.writeFloat(this.myRating);
         dest.writeString(this.synopsis);
         dest.writeString(this.imgUrl);
         dest.writeString(this.cast);
@@ -137,6 +143,7 @@ public class Movie implements Parcelable {
         String titre = in.readString();
         Integer annee = in.readInt();
         int rating = in.readInt();
+        float myRating = in.readFloat();
         String synopsis = in.readString();
         String imgUrl = in.readString();
         String cast = in.readString();
@@ -145,6 +152,7 @@ public class Movie implements Parcelable {
         this.titre = titre;
         this.annee = annee;
         this.rating = rating;
+        this.myRating = myRating;
         this.synopsis = synopsis;
         this.imgUrl = imgUrl;
         this.cast = cast;

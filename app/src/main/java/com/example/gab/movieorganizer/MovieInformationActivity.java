@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.squareup.picasso.Picasso;
 
 public class MovieInformationActivity extends ActionBarActivity {
     Movie currentMovie;
+    RatingBar rating;
     TextView movieTitleTextView;
     TextView movieSynopsisTextView;
     TextView movieCastTextView;
@@ -38,6 +40,18 @@ public class MovieInformationActivity extends ActionBarActivity {
         movieCastTextView = (TextView) findViewById(R.id.castTextView);
         Picasso.with(this).load(currentMovie.getImgUrl()).into(movieImageView);
 
+        rating = (RatingBar)findViewById(R.id.ratingBar_movie_info);
+        rating.setRating(currentMovie.getMyRating());
+        rating.setVisibility(View.INVISIBLE);
+        rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                dbh.updateMovie(DBHelper.TABLE_SEEN,currentMovie,rating);
+                Toast.makeText(getApplicationContext(), "UPDATE SEEN BD", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         Log.d("MovieInformationActivity", "Affichage des films :" + currentMovie.toString());
         movieTitleTextView.setText(currentMovie.getTitre() + " (" + currentMovie.getAnnee() + ")");
         movieSynopsisTextView.setText(currentMovie.getSynopsis());
@@ -48,19 +62,25 @@ public class MovieInformationActivity extends ActionBarActivity {
 
         //check si deja dans BD si oui doit le mettre CHECKED
         boolean existS = dbh.isMovieExist(DBHelper.TABLE_SEEN,currentMovie);
-        if(existS) {
+        if(existS){
+            rating.setVisibility(View.VISIBLE);
             seen.setChecked(true);
         }
+
         seen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
                 if (isChecked){
                     Toast.makeText(getApplicationContext(), "AJOUT SEEN BD", Toast.LENGTH_SHORT).show();
+                    rating.setVisibility(View.VISIBLE);
                     dbh.insertMovie(currentMovie, DBHelper.TABLE_SEEN);
+
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "ENLEVE SEEN BD", Toast.LENGTH_SHORT).show();
+                    rating.setVisibility(View.INVISIBLE);
+                    rating.setRating(0.0f);
                     dbh.deleteMovie(currentMovie, DBHelper.TABLE_SEEN);
                 }
             }
