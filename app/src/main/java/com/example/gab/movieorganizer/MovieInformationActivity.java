@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.SlidingDrawer;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.squareup.picasso.Picasso;
 
 public class MovieInformationActivity extends ActionBarActivity implements SlidingDrawer.OnDrawerCloseListener, SlidingDrawer.OnDrawerOpenListener {
     Movie currentMovie;
+    RatingBar rating;
     TextView movieTitleTextView;
     TextView movieSynopsisTextView;
     TextView movieCastTextView;
@@ -46,10 +48,24 @@ public class MovieInformationActivity extends ActionBarActivity implements Slidi
         movieSynopsisTextView = (TextView) findViewById(R.id.movieSynopsisTextView);
         movieCastTextView = (TextView) findViewById(R.id.castTextView);
         Picasso.with(this).load(currentMovie.getImgUrl()).into(movieImageView);
+        //movieImageView.setScaleType(ImageView.ScaleType.FIT_START);
+
+        rating = (RatingBar)findViewById(R.id.ratingBar_movie_info);
+        rating.setRating(currentMovie.getMyRating());
+        rating.setVisibility(View.INVISIBLE);
+        rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                dbh.updateMovie(DBHelper.TABLE_SEEN,currentMovie,rating);
+                Toast.makeText(getApplicationContext(), "UPDATE SEEN BD", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Log.d("MovieInformationActivity", "Affichage des films :" + currentMovie.toString());
         movieTitleTextView.setText(currentMovie.getTitre() + " (" + currentMovie.getAnnee() + ")");
         movieSynopsisTextView.setText(currentMovie.getSynopsis());
+        movieSynopsisTextView.setMovementMethod(new ScrollingMovementMethod());
         if(currentMovie.getCast() != null){
             movieCastTextView.setText("Cast: " + currentMovie.getCast());}
         dbh= new DBHelper(MainActivity.myContext);
@@ -57,7 +73,8 @@ public class MovieInformationActivity extends ActionBarActivity implements Slidi
 
         //check si deja dans BD si oui doit le mettre CHECKED
         boolean existS = dbh.isMovieExist(DBHelper.TABLE_SEEN,currentMovie);
-        if(existS) {
+        if(existS){
+            rating.setVisibility(View.VISIBLE);
             seen.setChecked(true);
         }
         seen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -66,10 +83,13 @@ public class MovieInformationActivity extends ActionBarActivity implements Slidi
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
                 if (isChecked){
                     Toast.makeText(getApplicationContext(), "AJOUT SEEN BD", Toast.LENGTH_SHORT).show();
+                    rating.setVisibility(View.VISIBLE);
                     dbh.insertMovie(currentMovie, DBHelper.TABLE_SEEN);
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "ENLEVE SEEN BD", Toast.LENGTH_SHORT).show();
+                    rating.setVisibility(View.INVISIBLE);
+                    rating.setRating(0.0f);
                     dbh.deleteMovie(currentMovie, DBHelper.TABLE_SEEN);
                 }
             }

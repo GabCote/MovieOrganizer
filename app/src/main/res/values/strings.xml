@@ -16,7 +16,7 @@
     <string name="year">Year</string>
     <string name="sort_by">Sort by:</string>
     <string name="alphabetic">Alphabetic</string>
-    <string name="requete_indice">Movie, Actor, Director, ...</string>
+    <string name="requete_indice">Movie Title...</string>
     <string name="title_activity_movie_information">Informations</string>
     <string name="movie_info">Movie Info</string>
     <string name="reviews">Reviews</string>

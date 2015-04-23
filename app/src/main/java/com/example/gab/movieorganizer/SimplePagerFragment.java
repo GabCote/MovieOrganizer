@@ -20,6 +20,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 /**
  * Created by Anna on 19/03/2015.
  */
@@ -186,8 +191,10 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
 
                 final View rootView4 = inflater.inflate(R.layout.research_layout, container, false);
                 lv4 = (ListView)rootView4.findViewById(R.id.listViewSearch);
+                RadioGroup rg4 = (RadioGroup)rootView4.findViewById(R.id.radioGroupSearch);
                 Button searchButton = (Button) rootView4.findViewById(R.id.searchButton);
                 searchButton.setOnClickListener(this);
+
                 lv4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
@@ -198,7 +205,33 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                         startActivity(intent);
                     }
                 });
-                RadioGroup rg4 = (RadioGroup)rootView4.findViewById(R.id.radioGroupSearch);
+                rg4.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        // checkedId is the RadioButton selected
+                        switch(checkedId) {
+                            case R.id.yearRBWish:
+                                //Collections.sort(SearchListViewAdapter.getMovies(), new CustomYearComparator());
+                                //SearchListViewAdapter sViewAdapter = new SearchListViewAdapter(MainActivity.myContext,SearchListViewAdapter.getMovies());
+                                //lv4.setAdapter(sViewAdapter);
+                                //query sorting par year
+                                break;
+                            case R.id.ratingRBWish:
+                                /*Collections.sort(SearchListViewAdapter.getMovies(), new CustomRateComparator());
+                                SearchListViewAdapter sVAdapter = new SearchListViewAdapter(MainActivity.myContext,SearchListViewAdapter.getMovies());
+                                lv4.setAdapter(sVAdapter);
+                                */break;
+                            case R.id.alphabeticRBWish:
+                                //query sorting par title
+                                /*Collections.sort(SearchListViewAdapter.getMovies(), new CustomAlphaComparator());
+                                SearchListViewAdapter sVA = new SearchListViewAdapter(MainActivity.myContext,SearchListViewAdapter.getMovies());
+                                lv4.setAdapter(sVA);
+                               */ break;
+                        }
+                    }
+                });
+
                 //aller chercher le cursor contenant les films de la recherche
                 //si vide laisse blank?
                 dice_iButton = (ImageButton)rootView4.findViewById(R.id.randomButton);
@@ -277,6 +310,27 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
             lva = new ListViewAdapter(MainActivity.myContext, c);
             lv3.setAdapter(lva);
 
+        }
+    }
+    public class CustomYearComparator implements Comparator<Movie> {
+        @Override
+        public int compare(Movie o1, Movie o2) {
+            return o1.getAnnee().compareTo(o2.getAnnee());
+        }
+    }
+
+    public class CustomRateComparator implements Comparator<Movie> {
+        @Override
+        public int compare(Movie o1, Movie o2) {
+            Integer r1=o1.getRating();
+            Integer r2 =o2.getRating();
+            return r1.compareTo(r2);
+        }
+    }
+    public class CustomAlphaComparator implements Comparator<Movie> {
+        @Override
+        public int compare(Movie o1, Movie o2) {
+            return o1.getTitre().compareTo(o2.getTitre());
         }
     }
 }

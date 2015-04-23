@@ -86,7 +86,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:id="@+id/randomButton"
-            android:src="@drawable/dice2"
+            android:src="@drawable/shuffle"
             android:adjustViewBounds="false"
             android:scaleType="fitCenter" />
 

@@ -27,6 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
     static final String COL_SYNOPSIS = "synopsis";
     static final String COL_IMAGE = "image";
     static final String COL_RATING = "rating";
+    static final String COL_MYRATING= "myrating";
     static final String COL_CAST ="cast";
     static final String COL_REVIEW_LINK ="reviewLink";
 
@@ -37,6 +38,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + COL_ANNEE+" integer, "
             + COL_SYNOPSIS+" text,"
             + COL_RATING+" text,"
+            + COL_MYRATING+" text,"
             + COL_IMAGE+" text,"
             + COL_CAST+" text,"
             + COL_REVIEW_LINK +" text)";
@@ -46,7 +48,8 @@ public class DBHelper extends SQLiteOpenHelper {
             + COL_TITRE+" text, "
             + COL_ANNEE+" integer, "
             + COL_SYNOPSIS+" text,"
-            + COL_RATING+" double,"
+            + COL_RATING+" text,"
+            + COL_MYRATING+" text,"
             + COL_IMAGE+" text,"
             + COL_CAST+" text,"
             + COL_REVIEW_LINK +" text)";
@@ -111,8 +114,8 @@ public class DBHelper extends SQLiteOpenHelper {
             String cast_rep = cast.replace("'","''");
             try {
                 db.execSQL("INSERT INTO " +
-                        table_name + "(" + COL_TITRE + "," + COL_ANNEE + "," + COL_SYNOPSIS + "," + COL_RATING + "," + COL_IMAGE + ","+COL_CAST+ ","+COL_REVIEW_LINK+ ")" +
-                        " Values ('" + movie.getTitre() + "','" + movie.getAnnee() + "','" + syp_rep + "','" + movie.getRating() + "','" + movie.getImgUrl() + "','"+ cast_rep+ "','"+ movie.getReviewLink() +"');");
+                        table_name + "(" + COL_TITRE + "," + COL_ANNEE + "," + COL_SYNOPSIS + "," + COL_RATING +"," + COL_MYRATING + "," + COL_IMAGE + ","+COL_CAST+ ","+COL_REVIEW_LINK+ ")" +
+                        " Values ('" + movie.getTitre() + "','" + movie.getAnnee() + "','" + syp_rep + "','" + movie.getRating() +"','" + movie.getMyRating()+ "','" + movie.getImgUrl() + "','"+ cast_rep+ "','"+ movie.getReviewLink() +"');");
                 Toast.makeText(MainActivity.myContext, "INSERT done", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
 
@@ -163,23 +166,18 @@ public class DBHelper extends SQLiteOpenHelper {
         return c;
     }
 
-    /*Methode pour updater un Movie SEEN*/
-    public int updateMovieSeen(Movie movie){
+    /*Methode pour updater un Movie*/
+    public void updateMovie(String table_name, Movie movie, float rating){
         SQLiteDatabase db = this.getWritableDatabase();
+        boolean exist = isMovieExist(table_name,movie);
+        if(exist) {
+            ContentValues values = new ContentValues();
+            values.put(COL_MYRATING, rating);
+            db.update(table_name,values,COL_TITRE+"=? and "+COL_ANNEE+"=? and "+COL_IMAGE+"=?",new String[] { movie.getTitre(),movie.getAnnee()+"",movie.getImgUrl()});
+        }
+        else
+            Toast.makeText(MainActivity.myContext, "MOVIE existe pas!", Toast.LENGTH_SHORT).show();
 
-        ContentValues values = new ContentValues();
-        values.put(COL_ID, movie.getId());
-        values.put(COL_TITRE, movie.getTitre());
-        values.put(COL_ANNEE, movie.getAnnee());
-        values.put(COL_SYNOPSIS, movie.getSynopsis());
-        values.put(COL_RATING, movie.getRating());
-        values.put(COL_IMAGE, movie.getImgUrl());
-        values.put(COL_CAST, movie.getCast());
-        values.put(COL_REVIEW_LINK, movie.getReviewLink());
-
-        // updating row
-        return db.update(TABLE_SEEN, values, COL_ID + " = ?",
-                new String[] { String.valueOf(movie.getId()) });
     }
 
 
