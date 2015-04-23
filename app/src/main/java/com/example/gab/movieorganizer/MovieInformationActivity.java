@@ -1,10 +1,9 @@
 package com.example.gab.movieorganizer;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -35,10 +34,10 @@ public class MovieInformationActivity extends ActionBarActivity {
         final Movie currentMovie =(Movie) getIntent().getParcelableExtra("movie");
         movieTitleTextView = (TextView) findViewById(R.id.movieTitleTextView);
         movieImageView = (ImageView) findViewById(R.id.movieImageView);
-        movieImageView.setScaleType(ImageView.ScaleType.FIT_START);
         movieSynopsisTextView = (TextView) findViewById(R.id.movieSynopsisTextView);
         movieCastTextView = (TextView) findViewById(R.id.castTextView);
         Picasso.with(this).load(currentMovie.getImgUrl()).into(movieImageView);
+        //movieImageView.setScaleType(ImageView.ScaleType.FIT_START);
 
         rating = (RatingBar)findViewById(R.id.ratingBar_movie_info);
         rating.setRating(currentMovie.getMyRating());
@@ -55,6 +54,7 @@ public class MovieInformationActivity extends ActionBarActivity {
         Log.d("MovieInformationActivity", "Affichage des films :" + currentMovie.toString());
         movieTitleTextView.setText(currentMovie.getTitre() + " (" + currentMovie.getAnnee() + ")");
         movieSynopsisTextView.setText(currentMovie.getSynopsis());
+        movieSynopsisTextView.setMovementMethod(new ScrollingMovementMethod());
         if(currentMovie.getCast() != null){
             movieCastTextView.setText("Cast: " + currentMovie.getCast());}
         dbh= new DBHelper(MainActivity.myContext);
