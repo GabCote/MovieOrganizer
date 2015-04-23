@@ -68,7 +68,6 @@ public class ListViewAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        Log.d("cursor",cursor.getCount()+"");
     }
 
 

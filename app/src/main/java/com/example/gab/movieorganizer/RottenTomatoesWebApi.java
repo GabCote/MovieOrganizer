@@ -248,7 +248,7 @@ public class RottenTomatoesWebApi {
         return currentPage;
     }
 
-    /** sort les movies COMPARE method **/
+
 
 
     public ArrayList<Movie> getMovies(){

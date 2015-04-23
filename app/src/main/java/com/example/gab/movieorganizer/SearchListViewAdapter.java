@@ -5,6 +5,7 @@ package com.example.gab.movieorganizer;
  */
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,14 +57,17 @@ public class SearchListViewAdapter  extends BaseAdapter {
         Movie currentMovie = movies.get(position);
         Picasso.with(v.getContext()).load(currentMovie.getImgUrl()).into(imageViewMovie);
         textViewMovieTitle.setText(currentMovie.getTitre().toString());
+        textViewMovieTitle.setTextColor(Color.BLACK);
         textViewRating.setText(currentMovie.getRating() + "%");
+        textViewRating.setTextColor(Color.BLACK);
         textViewYear.setText("(" + currentMovie.getAnnee() + ")");
+        textViewYear.setTextColor(Color.BLACK);
         //chercher les images de l'API
         //imageView.setImageResource();
         return v;
     }
 
-
+    public ArrayList<Movie> getMovieList(){return this.movies;}
 }
 
 

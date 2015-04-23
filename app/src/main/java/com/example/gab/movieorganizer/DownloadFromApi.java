@@ -81,6 +81,7 @@ public class DownloadFromApi extends AsyncTask<TaskParamsRottenTomatoesApi, Stri
                 }
                 ListView listViewSearch = (ListView)currentView.findViewById(R.id.listViewSearch);
                 SearchListViewAdapter searchListViewAdapter = new SearchListViewAdapter(currentView.getContext(), web.getMovies());
+
                 listViewSearch.setAdapter(searchListViewAdapter);
                 break;
             case "Reviews":
