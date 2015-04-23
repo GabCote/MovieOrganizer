@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,20 +70,20 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
 
                     }
                 });
-                textSeen = (TextView)rootView2.findViewById(R.id.textSeen);
+               /* textSeen = (TextView)rootView2.findViewById(R.id.textSeen);
                 textSeen.setText("You can add movies to your list by checking the 'Seen' box on the movie description page.");
 
                 c= dbh.listeSeen(DBHelper.COL_TITRE);
                 if(c.getCount() != 0) {
-                    textSeen.setVisibility(View.GONE);
+                  textSeen.setVisibility(View.GONE);
 
-                    listViewAdapter = new ListViewAdapter(MainActivity.myContext, c);
-                    lv2.setAdapter(listViewAdapter);
+                  listViewAdapter = new ListViewAdapter(MainActivity.myContext, c);
+                  lv2.setAdapter(listViewAdapter);
                 }
                 else {
-                    textSeen.setVisibility(View.VISIBLE);
+                   textSeen.setVisibility(View.VISIBLE);
                 }
-
+*/
                 RadioGroup rg = (RadioGroup)rootView2.findViewById(R.id.radioGroupSeen);
                 rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
                 {
@@ -133,11 +134,11 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                         startActivity(intent);
                     }
                 });
-                TextView textWish= (TextView)rootView3.findViewById(R.id.textWish);
-                textWish.setText("You can add movies to your list by checking the 'Wishlist' box on the movie description page.");
+                //TextView textWish= (TextView)rootView3.findViewById(R.id.textWish);
+                //textWish.setText("You can add movies to your list by checking the 'Wishlist' box on the movie description page.");
                 RadioGroup rg2 = (RadioGroup)rootView3.findViewById(R.id.radioGroupWish);
 
-                Cursor cursor = dbh.listeWishlist(DBHelper.COL_TITRE);
+                /*Cursor cursor = dbh.listeWishlist(DBHelper.COL_TITRE);
                 if(cursor.getCount() != 0) {
                     textWish.setVisibility(View.GONE);
 
@@ -146,7 +147,7 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                 }
                 else{
                     textWish.setVisibility(View.VISIBLE);
-                }
+                }*/
                 rg2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
                 {
                     @Override
@@ -229,6 +230,50 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
             String queryStr = QueryTextView.getText().toString();
             TaskParamsRottenTomatoesApi downloadParams = new TaskParamsRottenTomatoesApi("Recherche", queryStr);
             new DownloadFromApi(rootView).execute(downloadParams);
+        }
+    }
+    @Override
+     public void onResume() {
+
+        super.onResume();
+
+        refreshList();
+
+    }
+
+
+    public void refreshList() {
+        lv2 = (ListView) getView().findViewById(R.id.listViewSeen);
+        if(lv2 != null && (lv2.getVisibility() == View.VISIBLE)) {
+            textSeen = (TextView)getView().findViewById(R.id.textSeen);
+            textSeen.setText("You can add movies to your list by checking the 'Seen' box on the movie description page.");
+
+            c= dbh.listeSeen(DBHelper.COL_TITRE);
+            if(c.getCount() != 0) {
+                textSeen.setVisibility(View.GONE);
+                listViewAdapter = new ListViewAdapter(MainActivity.myContext, c);
+                lv2.setAdapter(listViewAdapter);
+            }
+            else {
+                textSeen.setVisibility(View.VISIBLE);
+            }
+
+        }
+        lv3 = (ListView) getView().findViewById(R.id.listViewWish);
+        if(lv3 != null && (lv3.getVisibility() == View.VISIBLE)){
+            TextView textWish= (TextView)getView().findViewById(R.id.textWish);
+            textWish.setText("You can add movies to your list by checking the 'Wishlist' box on the movie description page.");
+
+            c = dbh.listeWishlist(DBHelper.COL_TITRE);
+            if(c.getCount() != 0) {
+                textWish.setVisibility(View.GONE);
+                lva = new ListViewAdapter(MainActivity.myContext, c);
+                lv3.setAdapter(lva);
+            }
+            else{
+                textWish.setVisibility(View.VISIBLE);
+            }
+
         }
     }
 }

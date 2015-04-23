@@ -58,7 +58,6 @@ public class ListViewAdapter extends CursorAdapter {
         annee.setText("(" + c.getInt(c.getColumnIndex(DBHelper.COL_ANNEE)) + ") ");
         titre.setText(c.getString(c.getColumnIndex(DBHelper.COL_TITRE)));
         rating.setText(c.getInt(c.getColumnIndex(DBHelper.COL_RATING))+"%");
-
         return v;
     }
 
@@ -69,7 +68,7 @@ public class ListViewAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-
+        Log.d("cursor",cursor.getCount()+"");
     }
 
 
