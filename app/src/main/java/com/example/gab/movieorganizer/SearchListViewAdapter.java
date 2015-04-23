@@ -51,9 +51,13 @@ public class SearchListViewAdapter  extends BaseAdapter {
         }
         ImageView imageViewMovie = (ImageView) v.findViewById(R.id.imageViewMovie);
         TextView textViewMovieTitle = (TextView) v.findViewById(R.id.textViewMovieTitle);
+        TextView textViewRating = (TextView) v.findViewById(R.id.textRating);
+        TextView textViewYear = (TextView) v.findViewById(R.id.textYear);
         Movie currentMovie = movies.get(position);
         Picasso.with(v.getContext()).load(currentMovie.getImgUrl()).into(imageViewMovie);
         textViewMovieTitle.setText(currentMovie.getTitre().toString());
+        textViewRating.setText(currentMovie.getRating() + "%");
+        textViewYear.setText("(" + currentMovie.getAnnee() + ")");
         //chercher les images de l'API
         //imageView.setImageResource();
         return v;
