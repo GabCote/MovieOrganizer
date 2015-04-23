@@ -1,5 +1,6 @@
 package com.example.gab.movieorganizer;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -7,16 +8,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 
-public class MovieInformationActivity extends ActionBarActivity {
+public class MovieInformationActivity extends ActionBarActivity implements SlidingDrawer.OnDrawerCloseListener, SlidingDrawer.OnDrawerOpenListener {
     Movie currentMovie;
     TextView movieTitleTextView;
     TextView movieSynopsisTextView;
@@ -25,12 +28,18 @@ public class MovieInformationActivity extends ActionBarActivity {
     DBHelper dbh;
     CheckBox seen;
     CheckBox wish;
+    SlidingDrawer slidingDrawer;
+    Button reviewsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_information);
         final Movie currentMovie =(Movie) getIntent().getParcelableExtra("movie");
+        SlidingDrawer slidingDrawer = (SlidingDrawer) findViewById(R.id.slidingDrawer);
+        slidingDrawer.setOnDrawerCloseListener(this);
+        slidingDrawer.setOnDrawerOpenListener(this);
+        reviewsButton = (Button) findViewById(R.id.reviewsButton);
         movieTitleTextView = (TextView) findViewById(R.id.movieTitleTextView);
         movieImageView = (ImageView) findViewById(R.id.movieImageView);
         movieImageView.setScaleType(ImageView.ScaleType.FIT_START);
@@ -104,5 +113,17 @@ public class MovieInformationActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDrawerClosed() {
+        Drawable img = getBaseContext().getResources().getDrawable(android.R.drawable.arrow_up_float);
+        reviewsButton.setCompoundDrawablesWithIntrinsicBounds(null,null,img,null);
+    }
+
+    @Override
+    public void onDrawerOpened() {
+        Drawable img = getBaseContext().getResources().getDrawable(android.R.drawable.arrow_down_float);
+        reviewsButton.setCompoundDrawablesWithIntrinsicBounds(null,null,img,null);
     }
 }

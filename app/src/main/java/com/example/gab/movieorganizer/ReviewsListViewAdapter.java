@@ -51,9 +51,9 @@ public class ReviewsListViewAdapter  extends BaseAdapter {
         CriticReview currentCritic = criticReviews.get(position);
         TextView criticTextView = (TextView) v.findViewById(R.id.criticTextView);
         criticTextView.setText(currentCritic.getCritic());
-        //textViewMovieTitle.setText(currentMovie.getTitre().toString());
-        //chercher les images de l'API
-        //imageView.setImageResource();
+        TextView quoteTextView = (TextView) v.findViewById(R.id.quoteTextView);
+        quoteTextView.setText(currentCritic.getQuote());
+
         return v;
     }
 }

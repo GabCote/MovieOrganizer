@@ -71,20 +71,20 @@
         android:layout_gravity="center_horizontal"
         android:id="@+id/info_layout">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/movie_info"
-            android:id="@+id/movieInfoTextView"
-            android:gravity="center" />
-
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/movie_info"
+                android:id="@+id/movieInfoTextView"
+                android:gravity="center" />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:id="@+id/imageAndSynopsisLayout">
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -101,7 +101,6 @@
                 android:layout_gravity="right" />
 
         </LinearLayout>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -111,25 +110,25 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
+    <SlidingDrawer
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/critics_layout">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/reviews"
-            android:id="@+id/textView3"
-            android:gravity="center" />
-    </LinearLayout>
-
+        android:content="@+id/listViewReviews"
+        android:handle="@+id/reviewsButton"
+        android:id="@+id/slidingDrawer"
+        android:layout_gravity="center_horizontal">
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listViewReviews" />
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/reviews"
+            android:id="@+id/reviewsButton"
+            android:gravity="center"
+            android:drawableRight="@android:drawable/arrow_up_float"/>
+    </SlidingDrawer>
 
 </LinearLayout>
