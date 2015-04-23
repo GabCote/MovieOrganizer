@@ -58,24 +58,27 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/radioGroupSearch"
                     android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/alphabetic"
-                        android:id="@+id/alphabeticRBSearch"
-                        android:checked="true" />
+
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/rating"
                         android:id="@+id/ratingRBSearch"
                         android:checked="false" />
+
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/year"
                         android:id="@+id/yearRBSearch"
                         android:checked="false" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/alphabetic"
+                        android:id="@+id/alphabeticRBSearch"
+                        android:checked="true" />
                 </RadioGroup>
 
             </LinearLayout>
@@ -86,7 +89,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:id="@+id/randomButton"
-            android:src="@drawable/shuffle"
+            android:src="@drawable/shuffle_gris"
             android:adjustViewBounds="false"
             android:scaleType="fitCenter" />
 

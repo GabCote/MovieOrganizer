@@ -22,12 +22,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioGroupWish"
             android:orientation="horizontal">
+
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/alphabetic"
-                android:id="@+id/alphabeticRBWish"
-                android:checked="true" />
+                android:text="@string/rating"
+                android:id="@+id/ratingRBWish"
+                android:checked="false" />
+
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,12 +37,13 @@
                 android:id="@+id/yearRBWish"
                 android:layout_gravity="center_horizontal"
                 android:checked="false" />
+
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/rating"
-                android:id="@+id/ratingRBWish"
-                android:checked="false" />
+                android:text="@string/alphabetic"
+                android:id="@+id/alphabeticRBWish"
+                android:checked="true" />
         </RadioGroup>
 
     </LinearLayout>

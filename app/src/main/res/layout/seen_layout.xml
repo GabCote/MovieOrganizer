@@ -23,12 +23,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioGroupSeen"
             android:orientation="horizontal">
+
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/alphabetic"
-                android:id="@+id/alphabeticRBSeen"
-                android:checked="true" />
+                android:text="@string/rating"
+                android:id="@+id/ratingRBSeen"
+                android:checked="false" />
+
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,12 +38,13 @@
                 android:id="@+id/yearRBSeen"
                 android:layout_gravity="center_horizontal"
                 android:checked="false" />
+
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/rating"
-                android:id="@+id/ratingRBSeen"
-                android:checked="false" />
+                android:text="@string/alphabetic"
+                android:id="@+id/alphabeticRBSeen"
+                android:checked="true" />
         </RadioGroup>
 
     </LinearLayout>
