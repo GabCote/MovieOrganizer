@@ -36,6 +36,7 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
     Cursor c;
     ListViewAdapter listViewAdapter, lva;
     ImageButton dice_iButton;
+    RadioGroup rg2,rg3,rg4;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         Bundle args = getArguments();
@@ -89,35 +90,38 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                    textSeen.setVisibility(View.VISIBLE);
                 }
 */
-                RadioGroup rg = (RadioGroup)rootView2.findViewById(R.id.radioGroupSeen);
-                rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+                rg2 = (RadioGroup)rootView2.findViewById(R.id.radioGroupSeen);
+                rg2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
                 {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
                         // checkedId is the RadioButton selected
                         switch(checkedId) {
                             case R.id.yearRBSeen:
-                                    Cursor cYS = dbh.listeSeen(DBHelper.COL_ANNEE);
+                                sorting(R.id.yearRBSeen);
+                                   /* Cursor cYS = dbh.listeSeen(DBHelper.COL_ANNEE);
                                 if(cYS.getCount() != 0) {
                                     listViewAdapter.changeCursor(cYS);
                                     lv2.setAdapter(listViewAdapter);
-                                }
+                                }*/
                                     break;
                             case R.id.ratingRBSeen:
+                                sorting(R.id.ratingRBSeen);
                                    //query sorting par rating
-                                    Cursor cRS = dbh.listeSeen(DBHelper.COL_RATING);
+                                    /*Cursor cRS = dbh.listeSeen(DBHelper.COL_RATING);
                                     if(cRS.getCount() != 0) {
                                         listViewAdapter.changeCursor(cRS);
                                         lv2.setAdapter(listViewAdapter);
-                                    }
+                                    }*/
                                     break;
                             case R.id.alphabeticRBSeen:
+                                sorting(R.id.alphabeticRBSeen);
                                     //query sorting par title
-                                    Cursor cAS = dbh.listeSeen(DBHelper.COL_TITRE);
+                                    /*Cursor cAS = dbh.listeSeen(DBHelper.COL_TITRE);
                                     if(cAS.getCount() != 0) {
                                         listViewAdapter.changeCursor(cAS);
                                         lv2.setAdapter(listViewAdapter);
-                                    }
+                                    }*/
                                     break;
                         }
                     }
@@ -141,7 +145,7 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                 });
                 //TextView textWish= (TextView)rootView3.findViewById(R.id.textWish);
                 //textWish.setText("You can add movies to your list by checking the 'Wishlist' box on the movie description page.");
-                RadioGroup rg2 = (RadioGroup)rootView3.findViewById(R.id.radioGroupWish);
+                rg3 = (RadioGroup)rootView3.findViewById(R.id.radioGroupWish);
 
                 /*Cursor cursor = dbh.listeWishlist(DBHelper.COL_TITRE);
                 if(cursor.getCount() != 0) {
@@ -153,34 +157,38 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                 else{
                     textWish.setVisibility(View.VISIBLE);
                 }*/
-                rg2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+                rg3.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
                 {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
                         // checkedId is the RadioButton selected
                         switch(checkedId) {
                             case R.id.yearRBWish:
-                                Cursor cYW = dbh.listeWishlist(DBHelper.COL_ANNEE);
+                                sorting(R.id.yearRBWish);
+
+                                /*Cursor cYW = dbh.listeWishlist(DBHelper.COL_ANNEE);
                                 if(cYW.getCount() != 0){
                                     lva.changeCursor(cYW);
                                     lv3.setAdapter(lva);
-                                }
+                                }*/
                                 break;
                             case R.id.ratingRBWish:
+                                sorting(R.id.ratingRBWish);
                                 //query sorting par rating
-                                Cursor cRW = dbh.listeWishlist(DBHelper.COL_RATING);
+                                /*Cursor cRW = dbh.listeWishlist(DBHelper.COL_RATING);
                                 if(cRW.getCount() != 0) {
                                     lva.changeCursor(cRW);
                                     lv3.setAdapter(lva);
-                                }
+                                }*/
                                 break;
                             case R.id.alphabeticRBWish:
                                 //query sorting par title
-                                Cursor cAW = dbh.listeWishlist(DBHelper.COL_TITRE);
+                                sorting(R.id.alphabeticRBWish);
+                                /*Cursor cAW = dbh.listeWishlist(DBHelper.COL_TITRE);
                                 if(cAW.getCount() != 0) {
                                     lva.changeCursor(cAW);
                                     lv3.setAdapter(lva);
-                                }
+                                }*/
                                 break;
                         }
                     }
@@ -191,7 +199,7 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
 
                 final View rootView4 = inflater.inflate(R.layout.research_layout, container, false);
                 lv4 = (ListView)rootView4.findViewById(R.id.listViewSearch);
-                RadioGroup rg4 = (RadioGroup)rootView4.findViewById(R.id.radioGroupSearch);
+                rg4 = (RadioGroup)rootView4.findViewById(R.id.radioGroupSearch);
                 Button searchButton = (Button) rootView4.findViewById(R.id.searchButton);
                 searchButton.setOnClickListener(this);
 
@@ -278,12 +286,21 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
     public void refreshList() {
         lv2 = (ListView) getView().findViewById(R.id.listViewSeen);
         lv3 = (ListView) getView().findViewById(R.id.listViewWish);
+        rg2 = (RadioGroup)getView().findViewById(R.id.radioGroupSeen);
+        rg3 = (RadioGroup)getView().findViewById(R.id.radioGroupWish);
 
         if(lv2 != null && (lv2.getVisibility() == View.VISIBLE)) {
             textSeen = (TextView)getView().findViewById(R.id.textSeen);
             textSeen.setText("You can add movies to your list by checking the 'Seen' box on the movie description page.");
 
-            c= dbh.listeSeen(DBHelper.COL_TITRE);
+            int id =rg2.getCheckedRadioButtonId();
+            if(id == R.id.alphabeticRBSeen)
+                c= dbh.listeSeen(DBHelper.COL_TITRE);
+            else if(id == R.id.yearRBSeen)
+                c= dbh.listeSeen(DBHelper.COL_ANNEE);
+            else
+                c= dbh.listeSeen(DBHelper.COL_RATING);
+
             if(c.getCount() != 0) {
                 textSeen.setVisibility(View.GONE);
             }
@@ -300,7 +317,14 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
             TextView textWish= (TextView)getView().findViewById(R.id.textWish);
             textWish.setText("You can add movies to your list by checking the 'Wishlist' box on the movie description page.");
 
-            c = dbh.listeWishlist(DBHelper.COL_TITRE);
+            int id =rg3.getCheckedRadioButtonId();
+            if(id == R.id.alphabeticRBWish)
+                c= dbh.listeWishlist(DBHelper.COL_TITRE);
+            else if(id == R.id.yearRBWish)
+                c= dbh.listeWishlist(DBHelper.COL_ANNEE);
+            else
+                c= dbh.listeWishlist(DBHelper.COL_RATING);
+
             if(c.getCount() != 0) {
                 textWish.setVisibility(View.GONE);
             }
@@ -311,6 +335,56 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
             lv3.setAdapter(lva);
 
         }
+    }
+
+    public void sorting(int id){
+        switch(id){
+            case R.id.alphabeticRBWish:
+                Cursor cAW = dbh.listeWishlist(DBHelper.COL_TITRE);
+                if(cAW.getCount() != 0) {
+                    lva.changeCursor(cAW);
+                    lv3.setAdapter(lva);
+                }
+                break;
+            case R.id.ratingRBWish:
+                Cursor cRW = dbh.listeWishlist(DBHelper.COL_RATING);
+                if(cRW.getCount() != 0) {
+                    lva.changeCursor(cRW);
+                    lv3.setAdapter(lva);
+                }
+                break;
+            case R.id.yearRBWish:
+                Cursor cYW = dbh.listeWishlist(DBHelper.COL_ANNEE);
+                if(cYW.getCount() != 0){
+                    lva.changeCursor(cYW);
+                    lv3.setAdapter(lva);
+                }
+                break;
+            case R.id.yearRBSeen:
+                Cursor cYS = dbh.listeSeen(DBHelper.COL_ANNEE);
+                if(cYS.getCount() != 0) {
+                    listViewAdapter.changeCursor(cYS);
+                    lv2.setAdapter(listViewAdapter);
+                }
+                break;
+            case R.id.ratingRBSeen:
+                //query sorting par rating
+                Cursor cRS = dbh.listeSeen(DBHelper.COL_RATING);
+                if(cRS.getCount() != 0) {
+                    listViewAdapter.changeCursor(cRS);
+                    lv2.setAdapter(listViewAdapter);
+                }
+                break;
+            case R.id.alphabeticRBSeen:
+                //query sorting par title
+                Cursor cAS = dbh.listeSeen(DBHelper.COL_TITRE);
+                if(cAS.getCount() != 0) {
+                    listViewAdapter.changeCursor(cAS);
+                    lv2.setAdapter(listViewAdapter);
+                }
+                break;
+        }
+
     }
     public class CustomYearComparator implements Comparator<Movie> {
         @Override

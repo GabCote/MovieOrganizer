@@ -14,7 +14,7 @@ import android.widget.Toast;
 public class DBHelper extends SQLiteOpenHelper {
 
     static final String DB_NAME = "MovieOrganizer.db";
-    static final int DB_Version =1;
+    static final int DB_Version =2;
 
     //table names
     static final String TABLE_SEEN = "seen";
@@ -157,11 +157,18 @@ public class DBHelper extends SQLiteOpenHelper {
     /*Methode pour avoir la liste de tous les films SEEN*/
     public Cursor listeSeen(String sort){
         SQLiteDatabase db = this.getReadableDatabase();
-
+        Cursor c;
         //comme une ArrayListe de type Database
-        String sql = "select * from "+ TABLE_SEEN
-                +" order by "+ sort+" asc";
-        Cursor c=db.rawQuery(sql,null);
+        if(sort.equals(COL_TITRE)) {
+            String sql = "select * from " + TABLE_SEEN
+                    + " order by " + sort + " asc";
+            c = db.rawQuery(sql, null);
+        }
+        else{
+            String sql = "select * from " + TABLE_SEEN
+                    + " order by " + sort + " desc";
+            c = db.rawQuery(sql, null);
+        }
 
         return c;
     }
@@ -186,12 +193,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Cursor listeWishlist(String sort){
         SQLiteDatabase db = this.getReadableDatabase();
-
+        Cursor c;
         //comme une ArrayListe de type Database
-        String sql = "select * from "+ TABLE_WISH
-                +" order by "+ sort+" asc";
-        Cursor c=db.rawQuery(sql,null);
-
+        if(sort.equals(COL_TITRE)) {
+            String sql = "select * from " + TABLE_WISH
+                    + " order by " + sort + " asc";
+            c = db.rawQuery(sql, null);
+        }
+        else{
+            String sql = "select * from " + TABLE_WISH
+                    + " order by " + sort + " desc";
+            c = db.rawQuery(sql, null);
+        }
         return c;
     }
 }
