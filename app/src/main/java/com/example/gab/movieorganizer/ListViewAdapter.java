@@ -30,6 +30,9 @@ public class ListViewAdapter extends CursorAdapter {
 
     @Override
     public Movie getItem(int position) {
+
+        getCursor().moveToPosition(position);
+
         Movie m = new Movie(getCursor().getInt(getCursor().getColumnIndex(DBHelper.COL_ID)),getCursor().getString(getCursor().getColumnIndex(DBHelper.COL_TITRE)),getCursor().getInt(getCursor().getColumnIndex(DBHelper.COL_ANNEE)),getCursor().getString(getCursor().getColumnIndex(DBHelper.COL_SYNOPSIS)),getCursor().getInt(getCursor().getColumnIndex(DBHelper.COL_RATING)),getCursor().getFloat(getCursor().getColumnIndex(DBHelper.COL_MYRATING)),getCursor().getString(getCursor().getColumnIndex(DBHelper.COL_IMAGE)),getCursor().getString(getCursor().getColumnIndex(DBHelper.COL_CAST)),getCursor().getString(getCursor().getColumnIndex(DBHelper.COL_REVIEW_LINK)));
         return m;
     }
