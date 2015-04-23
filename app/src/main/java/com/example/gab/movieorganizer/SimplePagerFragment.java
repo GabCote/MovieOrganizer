@@ -244,6 +244,8 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
 
     public void refreshList() {
         lv2 = (ListView) getView().findViewById(R.id.listViewSeen);
+        lv3 = (ListView) getView().findViewById(R.id.listViewWish);
+
         if(lv2 != null && (lv2.getVisibility() == View.VISIBLE)) {
             textSeen = (TextView)getView().findViewById(R.id.textSeen);
             textSeen.setText("You can add movies to your list by checking the 'Seen' box on the movie description page.");
@@ -251,15 +253,16 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
             c= dbh.listeSeen(DBHelper.COL_TITRE);
             if(c.getCount() != 0) {
                 textSeen.setVisibility(View.GONE);
-                listViewAdapter = new ListViewAdapter(MainActivity.myContext, c);
-                lv2.setAdapter(listViewAdapter);
             }
             else {
                 textSeen.setVisibility(View.VISIBLE);
             }
+            listViewAdapter = new ListViewAdapter(MainActivity.myContext, c);
+            lv2.setAdapter(listViewAdapter);
 
         }
-        lv3 = (ListView) getView().findViewById(R.id.listViewWish);
+
+
         if(lv3 != null && (lv3.getVisibility() == View.VISIBLE)){
             TextView textWish= (TextView)getView().findViewById(R.id.textWish);
             textWish.setText("You can add movies to your list by checking the 'Wishlist' box on the movie description page.");
@@ -267,12 +270,12 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
             c = dbh.listeWishlist(DBHelper.COL_TITRE);
             if(c.getCount() != 0) {
                 textWish.setVisibility(View.GONE);
-                lva = new ListViewAdapter(MainActivity.myContext, c);
-                lv3.setAdapter(lva);
             }
             else{
                 textWish.setVisibility(View.VISIBLE);
             }
+            lva = new ListViewAdapter(MainActivity.myContext, c);
+            lv3.setAdapter(lva);
 
         }
     }
