@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class SearchListViewAdapter  extends BaseAdapter {
 
@@ -57,6 +58,8 @@ public class SearchListViewAdapter  extends BaseAdapter {
         //imageView.setImageResource();
         return v;
     }
+
+
 }
 
 
