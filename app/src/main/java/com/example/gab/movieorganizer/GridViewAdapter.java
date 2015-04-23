@@ -48,7 +48,7 @@ public class GridViewAdapter  extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(250,215));
+            imageView.setLayoutParams(new GridView.LayoutParams(250,280));
             imageView.setPadding(0, 8, 0, 8);
         } else {
             imageView = (ImageView) convertView;
