@@ -134,7 +134,7 @@ public class RottenTomatoesWebApi {
                         if (Utilities.isStringInt(anneeStr)){
                             annee = movie.getInt("year");
                         } else{
-                            annee = null;
+                            annee = 0;
                         }
                         String synopsis = movie.getString("synopsis");
 
@@ -167,6 +167,7 @@ public class RottenTomatoesWebApi {
                         cast="";
 
                         Log.d("FILMS2","Affichage des films :"+movie1.toString());
+
                     }
                     break;
                 case "Reviews":

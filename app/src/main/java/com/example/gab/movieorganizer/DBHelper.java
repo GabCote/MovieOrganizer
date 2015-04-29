@@ -14,7 +14,7 @@ import android.widget.Toast;
 public class DBHelper extends SQLiteOpenHelper {
 
     static final String DB_NAME = "MovieOrganizer.db";
-    static final int DB_Version =2;
+    static final int DB_Version =3;
 
     //table names
     static final String TABLE_SEEN = "seen";
@@ -37,7 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + COL_TITRE+" text, "
             + COL_ANNEE+" integer, "
             + COL_SYNOPSIS+" text,"
-            + COL_RATING+" text,"
+            + COL_RATING+" integer,"
             + COL_MYRATING+" text,"
             + COL_IMAGE+" text,"
             + COL_CAST+" text,"
@@ -48,7 +48,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + COL_TITRE+" text, "
             + COL_ANNEE+" integer, "
             + COL_SYNOPSIS+" text,"
-            + COL_RATING+" text,"
+            + COL_RATING+" integer,"
             + COL_MYRATING+" text,"
             + COL_IMAGE+" text,"
             + COL_CAST+" text,"

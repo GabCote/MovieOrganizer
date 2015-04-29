@@ -195,7 +195,9 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.searchButton){
-
+            rg4 = (RadioGroup)getView().findViewById(R.id.radioGroupSearch);
+            rg4.clearCheck();;
+            rg4.check(R.id.alphabeticRBSearch);
             View rootView = (View) v.getRootView();
             TextView QueryTextView = (TextView)rootView.findViewById(R.id.requete);
             String queryStr = QueryTextView.getText().toString();
