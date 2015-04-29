@@ -184,18 +184,7 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
                 //aller chercher le cursor contenant les films de la recherche
                 //si vide laisse blank?
                 dice_iButton = (ImageButton)rootView4.findViewById(R.id.randomButton);
-                dice_iButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View arg0) {
-                        Toast.makeText(rootView4.getContext(),"On lance les dés :D!", Toast.LENGTH_SHORT).show();
-                        /*Random rand = new Random();
-                        int position = rand.nextInt(16);
-                        Movie m =(Movie)lv4.getItemAtPosition(position);
-                        Intent intent = new Intent(rootView4.getContext(), MovieInformationActivity.class);
-                        intent.putExtra("movie", m);
-                        startActivity(intent);*/
-                    }
-                });
+                dice_iButton.setOnClickListener(this);
 
                 return rootView4;
             default: return null;
@@ -211,6 +200,17 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
             TextView QueryTextView = (TextView)rootView.findViewById(R.id.requete);
             String queryStr = QueryTextView.getText().toString();
             TaskParamsRottenTomatoesApi downloadParams = new TaskParamsRottenTomatoesApi("Recherche", queryStr);
+            new DownloadFromApi(rootView).execute(downloadParams);
+        } else if(v.getId() == R.id.randomButton){
+            View rootView = (View) v.getRootView();
+            TextView QueryTextView = (TextView)rootView.findViewById(R.id.requete);
+            String queryStr = QueryTextView.getText().toString();
+            TaskParamsRottenTomatoesApi downloadParams;
+            if(!queryStr.isEmpty()){
+                downloadParams  = new TaskParamsRottenTomatoesApi("Recherche", queryStr);
+            } else{
+                downloadParams = new TaskParamsRottenTomatoesApi("RechercheRandom", null);
+            }
             new DownloadFromApi(rootView).execute(downloadParams);
         }
     }

@@ -1,5 +1,6 @@
 package com.example.gab.movieorganizer;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.Button;
@@ -7,6 +8,8 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
+
+import java.util.Random;
 
 /**
  * Created by Gab on 4/2/2015.
@@ -83,6 +86,15 @@ public class DownloadFromApi extends AsyncTask<TaskParamsRottenTomatoesApi, Stri
                 SearchListViewAdapter searchListViewAdapter = new SearchListViewAdapter(currentView.getContext(), web.getMovies());
 
                 listViewSearch.setAdapter(searchListViewAdapter);
+                break;
+            case "RechercheRandom":
+                int moviesSize = web.getMovies().size();
+                Random rand = new Random();
+                int position = rand.nextInt(moviesSize);
+                Movie randomMovie = web.getMovies().get(position);
+                Intent intent = new Intent(currentView.getContext(), MovieInformationActivity.class);
+                intent.putExtra("movie", randomMovie);
+                currentView.getContext().startActivity(intent);
                 break;
             case "Reviews":
                 ListView listViewReviews = (ListView)currentView.findViewById(R.id.listViewReviews);

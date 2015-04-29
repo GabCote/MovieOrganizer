@@ -59,6 +59,7 @@ public class RottenTomatoesWebApi {
             //peu importe la page, on verra.
             switch(pCurrentPAge){
                 case "Accueil":
+                case "RechercheRandom":
                     // Le format de ce JSON stocke les informations actuelles dans un sous-objet "movies"
                     moviesjson = js.getJSONArray("movies");
 
@@ -223,7 +224,8 @@ public class RottenTomatoesWebApi {
 
     public String getApiUrl(String pCurrentPage, String pQueryStr){
         switch (pCurrentPage){
-            case "Accueil": return "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey="+API_KEY+"&page_limit="+Integer.toString(page_limit)+"&country="+country;
+            case "Accueil":
+            case "RechercheRandom": return "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey="+API_KEY+"&page_limit="+Integer.toString(page_limit)+"&country="+country;
                 //ce sera ça: http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey=xbut6w49ap4qtjh22kz2fg7q&page_limit=16&country=ca
                 //c'est l'url pour prendre les Upcoming Movies
 
