@@ -40,6 +40,7 @@ public class SimplePagerFragment extends Fragment implements View.OnClickListene
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         Bundle args = getArguments();
+
         switch(args.getInt("id")+1){//ne pas commencer par zero (id +1)
             case 1:
                 final View rootView1 = inflater.inflate(R.layout.home_layout, container, false);

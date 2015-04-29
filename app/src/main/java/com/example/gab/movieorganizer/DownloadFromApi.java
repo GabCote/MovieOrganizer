@@ -59,19 +59,16 @@ public class DownloadFromApi extends AsyncTask<TaskParamsRottenTomatoesApi, Stri
         // On s'assure que l'objet de retour existe
         // et qu'il n'ait pas d'erreurs
         if (web == null) {
-           // Toast.makeText(MainActivity.this, getText(R.string.fatal_error), Toast.LENGTH_SHORT).show();
             return;
         }
         if (web.erreur != null) {
-           // Toast.makeText(MainActivity.this, web.erreur, Toast.LENGTH_SHORT).show();
-            return;
+           return;
         }
         switch(web.getCurrentPage()) {
             case "Accueil":
                GridView gridview = (GridView)currentView.findViewById(R.id.gridView);
                GridViewAdapter gridViewAdapter = new GridViewAdapter(currentView.getContext(), web.getMovies());
                gridview.setAdapter(gridViewAdapter);
-               // Toast.makeText(MainActivity.this, "On reussi a obtenir un webapi non null et sans erreur", Toast.LENGTH_SHORT).show();
                 break;
             case "Recherche":
                 TextView nombre_res = (TextView)currentView.findViewById(R.id.nbr_res);
@@ -104,12 +101,6 @@ public class DownloadFromApi extends AsyncTask<TaskParamsRottenTomatoesApi, Stri
             default:
                 break;
         }
-        // Si tout est OK, on met l'interface à jour
-        //temperature.setText(web.temperature);
-        //condition.setText(web.conditions);
-        //city.setText(web.ville);
-        //time.setText(web.depuis);
-        //icone.setImageDrawable(web.icone);
     }
 
 }

@@ -111,7 +111,7 @@ public class RottenTomatoesWebApi {
                         movies.add(movie1);
                         cast="";
 
-                        Log.d("FILMS2","Affichage des films :"+movie1.toString());
+
                     }
                     break;
                 case "Recherche":
@@ -166,7 +166,7 @@ public class RottenTomatoesWebApi {
                         movies.add(movie1);
                         cast="";
 
-                        Log.d("FILMS2","Affichage des films :"+movie1.toString());
+
 
                     }
                     break;

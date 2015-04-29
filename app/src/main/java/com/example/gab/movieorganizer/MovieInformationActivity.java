@@ -59,11 +59,9 @@ public class MovieInformationActivity extends ActionBarActivity implements Slidi
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 dbh.updateMovie(DBHelper.TABLE_SEEN,currentMovie,rating);
-                Toast.makeText(getApplicationContext(), "UPDATE SEEN BD", Toast.LENGTH_SHORT).show();
             }
         });
 
-        Log.d("MovieInformationActivity", "Affichage des films :" + currentMovie.toString());
         movieTitleTextView.setText(currentMovie.getTitre() + " (" + currentMovie.getAnnee() + ")");
         movieSynopsisTextView.setText(currentMovie.getSynopsis());
         movieSynopsisTextView.setMovementMethod(new ScrollingMovementMethod());
@@ -83,12 +81,10 @@ public class MovieInformationActivity extends ActionBarActivity implements Slidi
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
                 if (isChecked){
-                    Toast.makeText(getApplicationContext(), "AJOUT SEEN BD", Toast.LENGTH_SHORT).show();
                     rating.setVisibility(View.VISIBLE);
                     dbh.insertMovie(currentMovie, DBHelper.TABLE_SEEN);
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "ENLEVE SEEN BD", Toast.LENGTH_SHORT).show();
                     rating.setVisibility(View.INVISIBLE);
                     rating.setRating(0.0f);
                     dbh.deleteMovie(currentMovie, DBHelper.TABLE_SEEN);
@@ -105,13 +101,11 @@ public class MovieInformationActivity extends ActionBarActivity implements Slidi
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
                 if (isChecked){
-                    Toast.makeText(getApplicationContext(), "AJOUT WISH BD", Toast.LENGTH_SHORT).show();
                     dbh.insertMovie(currentMovie, DBHelper.TABLE_WISH);
 
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "ENLEVE WISH BD", Toast.LENGTH_SHORT).show();
-                    dbh.deleteMovie(currentMovie, DBHelper.TABLE_WISH);
+                     dbh.deleteMovie(currentMovie, DBHelper.TABLE_WISH);
                 }
             }
         });

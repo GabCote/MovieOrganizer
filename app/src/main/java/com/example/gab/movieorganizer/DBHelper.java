@@ -116,14 +116,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 db.execSQL("INSERT INTO " +
                         table_name + "(" + COL_TITRE + "," + COL_ANNEE + "," + COL_SYNOPSIS + "," + COL_RATING +"," + COL_MYRATING + "," + COL_IMAGE + ","+COL_CAST+ ","+COL_REVIEW_LINK+ ")" +
                         " Values ('" + movie.getTitre() + "','" + movie.getAnnee() + "','" + syp_rep + "','" + movie.getRating() +"','" + movie.getMyRating()+ "','" + movie.getImgUrl() + "','"+ cast_rep+ "','"+ movie.getReviewLink() +"');");
-                Toast.makeText(MainActivity.myContext, "INSERT done", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
 
                 e.printStackTrace();
             }
         }
-        else
-            Toast.makeText(MainActivity.myContext, "DEJA INSERER", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -134,8 +131,6 @@ public class DBHelper extends SQLiteOpenHelper {
         if(exist) {
             db.delete(table_name,COL_TITRE+"=? and "+COL_ANNEE+"=? and "+COL_IMAGE+"=?",new String[] { movie.getTitre(),movie.getAnnee()+"",movie.getImgUrl()});
         }
-        else
-            Toast.makeText(MainActivity.myContext, "MOVIE existe pas!", Toast.LENGTH_SHORT).show();
      }
 
     /*Check if movie exist in table*/
@@ -182,8 +177,6 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(COL_MYRATING, rating);
             db.update(table_name,values,COL_TITRE+"=? and "+COL_ANNEE+"=? and "+COL_IMAGE+"=?",new String[] { movie.getTitre(),movie.getAnnee()+"",movie.getImgUrl()});
         }
-        else
-            Toast.makeText(MainActivity.myContext, "MOVIE existe pas!", Toast.LENGTH_SHORT).show();
 
     }
 
