@@ -71,13 +71,29 @@
         android:layout_gravity="center_horizontal"
         android:id="@+id/info_layout">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/movie_info"
-            android:id="@+id/movieInfoTextView"
-            android:gravity="center" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="bottom">
+
+            <TextView
+                android:layout_width="124dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/textViewRating"
+                android:layout_gravity="left|bottom" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/movie_info"
+                android:id="@+id/movieInfoTextView"
+                android:gravity="center"
+                android:layout_gravity="bottom|right" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"

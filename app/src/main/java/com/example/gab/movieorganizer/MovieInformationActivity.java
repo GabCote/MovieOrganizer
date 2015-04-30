@@ -1,5 +1,6 @@
 package com.example.gab.movieorganizer;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class MovieInformationActivity extends ActionBarActivity implements Slidi
     TextView movieTitleTextView;
     TextView movieSynopsisTextView;
     TextView movieCastTextView;
+    TextView movieRatingTextView;
     ImageView movieImageView;
     DBHelper dbh;
     CheckBox seen;
@@ -48,6 +50,7 @@ public class MovieInformationActivity extends ActionBarActivity implements Slidi
         movieImageView.setScaleType(ImageView.ScaleType.FIT_START);
         movieSynopsisTextView = (TextView) findViewById(R.id.movieSynopsisTextView);
         movieCastTextView = (TextView) findViewById(R.id.castTextView);
+        movieRatingTextView = (TextView) findViewById(R.id.textViewRating);
         Picasso.with(this).load(currentMovie.getImgUrl()).into(movieImageView);
         //movieImageView.setScaleType(ImageView.ScaleType.FIT_START);
 
@@ -58,10 +61,10 @@ public class MovieInformationActivity extends ActionBarActivity implements Slidi
 
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                dbh.updateMovie(DBHelper.TABLE_SEEN,currentMovie,rating);
+                dbh.updateMovie(DBHelper.TABLE_SEEN, currentMovie, rating);
             }
         });
-
+        movieRatingTextView.setText("Rating: " + currentMovie.getRating() + "%");
         movieTitleTextView.setText(currentMovie.getTitre() + " (" + currentMovie.getAnnee() + ")");
         movieSynopsisTextView.setText(currentMovie.getSynopsis());
         movieSynopsisTextView.setMovementMethod(new ScrollingMovementMethod());
